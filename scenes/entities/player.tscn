@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://gktrw4cvodip"]
+
+[ext_resource type="Script" uid="uid://dudh5v8t02e5d" path="res://scenes/entities/player.gd" id="1_ucweq"]
+[ext_resource type="Script" uid="uid://bctgl8dm64tv6" path="res://utility/state_machine/state_machine.gd" id="2_08t41"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_ucweq")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_08t41")
