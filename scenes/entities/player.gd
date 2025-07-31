@@ -22,7 +22,7 @@ enum moves {
 	RIGHT
 }
 
-func _process(delta):
+func _process(_delta : float):
 	if is_moving:
 		# Move to move_target
 		position = position.move_toward(move_target, speed)
