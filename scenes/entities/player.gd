@@ -1,11 +1,11 @@
-extends CharacterBody2D
-class_name Player
+class_name Player extends CharacterBody2D
 
 const player_scene := preload("res://scenes/entities/player.tscn")
 
 @onready var tilemap: TileMapLayer = get_parent()
 
-var speed = 5
+@export var speed = 5
+@export var despawn_delay : int = 3
 
 var is_replaying := false
 var move_target: Vector2
@@ -13,14 +13,17 @@ var is_moving := false
 
 var start_pos = null
 
-var moves_recording = []
+var moves_recorded = []
 
-enum moves {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
+enum Actions {
+	WAIT,
+	INTERACT
 }
+
+#region Built-Ins
+func _ready():
+	GameGlobalEvents.tick.connect(replay)
+	start_pos = position
 
 func _process(_delta : float):
 	if is_moving:
@@ -29,52 +32,20 @@ func _process(_delta : float):
 		if position == move_target:
 			is_moving = false
 
-func replay():
-	if is_replaying and moves_recording.size() > 0:
-		var move = moves_recording.pop_front()
-		var dir : Vector2
-		if move == moves.UP:
-			dir = Vector2.UP
-		elif move == moves.DOWN:
-			dir = Vector2.DOWN
-		elif move == moves.LEFT:
-			dir = Vector2.LEFT
-		elif move == moves.RIGHT:
-			dir = Vector2.RIGHT
-		
-		move_target = get_move_target(dir)
-		is_moving = true
-
-func _ready():
-	GameGlobalEvents.tick.connect(replay)
-	start_pos = position
-
 func _input(event: InputEvent) -> void:
 	if is_moving or is_replaying:
 		return
-		
-	var dir := Vector2.ZERO
-	
-	var to_move = null
 	
 	if event.is_action_pressed("Replay"):
+		position = start_pos
+		
 		var clone = player_scene.instantiate()
 		clone.position = start_pos
 		clone.is_replaying = true
-		clone.moves_recording = moves_recording.duplicate(true)
+		clone.moves_recorded = moves_recorded.duplicate(true)
 		add_sibling(clone)
-	elif event.is_action_pressed("Up"):
-		dir = Vector2.UP
-		to_move = moves.UP
-	elif event.is_action_pressed("Down"):
-		dir = Vector2.DOWN
-		to_move = moves.DOWN
-	elif event.is_action_pressed("Left"):
-		dir = Vector2.LEFT
-		to_move = moves.LEFT
-	elif event.is_action_pressed("Right"):
-		dir = Vector2.RIGHT
-		to_move = moves.RIGHT
+	
+	var dir := Input.get_vector("Left", "Right", "Up", "Down")
 
 	if dir != Vector2.ZERO:
 		var next = get_next_tile(dir)
@@ -90,11 +61,31 @@ func _input(event: InputEvent) -> void:
 					#next[i].get("collider").overlap(self)
 
 		# Record this move, then perform it
-		moves_recording.append(to_move)
+		moves_recorded.append(dir)
 		move_target = get_move_target(dir)
 		is_moving = true
 		GameGlobalEvents.tick.emit()
-			
+#endregion
+
+#region Timey-Wimey
+func replay():
+	if is_replaying and moves_recorded.size() > 0:
+		var move = moves_recorded.pop_front()
+		
+		if move is Vector2:
+			move_target = get_move_target(move)
+			is_moving = true
+		elif move is Actions:
+			if move == Actions.WAIT:
+				pass
+	elif is_replaying and moves_recorded.size() == 0:
+		for i in range(despawn_delay):
+			await GameGlobalEvents.tick
+		
+		queue_free()
+#endregion
+
+#region Helpers
 func get_move_target(dir):
 	var current_tile: Vector2i = tilemap.local_to_map(position)
 	var target_tile: Vector2i = current_tile + Vector2i(dir)
@@ -117,3 +108,4 @@ func get_next_tile(dir) -> Array[Dictionary]:
 	var results := space_state.intersect_point(params)
 	
 	return results
+#endregion
