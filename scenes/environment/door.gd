@@ -1,10 +1,21 @@
 extends Object_Interactable
 
-@export var door_id: int
+@export var start_open : bool = false
+
+var is_open : bool :
+	get:
+		return is_open
+	set(value):
+		if value:
+			open()
+			is_open = value
+		else:
+			close()
+			is_open = value
 
 func _ready() -> void:
 	super()
-	tilemap.register_door(door_id, self)
+	is_open = start_open
 
 func open():
 	collision_layer = 0

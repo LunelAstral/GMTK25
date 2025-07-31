@@ -2,16 +2,16 @@ class_name Player extends CharacterBody2D
 
 const player_scene := preload("res://scenes/entities/player.tscn")
 
-@onready var tilemap: TileMapLayer = get_parent()
-
-@export var speed = 5
+@export var step_delay : float = 0.25
 @export var despawn_delay : int = 3
+@export var spawn_point : Object_Interactable
 
 var is_replaying := false
 var move_target: Vector2
-var is_moving := false
+var can_act := true
 
-var start_pos = null
+var tilemap: TileMapLayer
+var start_pos = Vector2.ZERO
 
 var moves_recorded = []
 
@@ -22,28 +22,53 @@ enum Actions {
 
 #region Built-Ins
 func _ready():
-	GameGlobalEvents.tick.connect(replay)
+	if is_replaying:
+		GameGlobalEvents.tick.connect(replay)
+	
+	tilemap = get_parent() if get_parent() is TileMapLayer else null
+	
+	move_target = position
 	start_pos = position
 
-func _process(_delta : float):
-	if is_moving:
-		# Move to move_target
-		position = position.move_toward(move_target, speed)
-		if position == move_target:
-			is_moving = false
+# FIXME: Need to figure out why "Wait" and holding down input fucks with recording.
+func _process(_delta: float) -> void:
+	if can_act:
+		movement_input()
+		movement()
 
 func _input(event: InputEvent) -> void:
-	if is_moving or is_replaying:
+	if is_replaying and not can_act:
+		return
+	
+	if event.is_action_pressed("Wait"):
+		moves_recorded.append(Actions.WAIT)
+		end_input()
 		return
 	
 	if event.is_action_pressed("Replay"):
 		position = start_pos
+		move_target = position
 		
 		var clone = player_scene.instantiate()
 		clone.position = start_pos
 		clone.is_replaying = true
 		clone.moves_recorded = moves_recorded.duplicate(true)
+		moves_recorded = []
 		add_sibling(clone)
+		end_input()
+		return
+	
+#endregion
+
+func movement() -> void:
+	if position != move_target:
+		position = move_target
+
+func movement_input() -> void:
+	var init_move_size : int = moves_recorded.size()
+	
+	if is_replaying:
+		return
 	
 	var dir := Input.get_vector("Left", "Right", "Up", "Down")
 
@@ -63,25 +88,23 @@ func _input(event: InputEvent) -> void:
 		# Record this move, then perform it
 		moves_recorded.append(dir)
 		move_target = get_move_target(dir)
-		is_moving = true
-		GameGlobalEvents.tick.emit()
-#endregion
+	
+	if init_move_size != moves_recorded.size():
+		end_input()
 
 #region Timey-Wimey
-func replay():
-	if is_replaying and moves_recorded.size() > 0:
+func replay() -> void:
+	if moves_recorded.size() > 0:
 		var move = moves_recorded.pop_front()
 		
 		if move is Vector2:
 			move_target = get_move_target(move)
-			is_moving = true
 		elif move is Actions:
 			if move == Actions.WAIT:
-				pass
-	elif is_replaying and moves_recorded.size() == 0:
+				return
+	elif moves_recorded.size() == 0:
 		for i in range(despawn_delay):
 			await GameGlobalEvents.tick
-		
 		queue_free()
 #endregion
 
@@ -108,4 +131,10 @@ func get_next_tile(dir) -> Array[Dictionary]:
 	var results := space_state.intersect_point(params)
 	
 	return results
+
+func end_input() -> void:
+	GameGlobalEvents.tick.emit()
+	can_act = false
+	await GameGlobal.delay(step_delay)
+	can_act = true
 #endregion

@@ -6,13 +6,15 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w63mm"]
 size = Vector2(6, 6)
 
-[node name="Switch" type="Area2D"]
+[node name="Switch" type="Area2D" node_paths=PackedStringArray("sprite")]
 script = ExtResource("1_w63mm")
+sprite = NodePath("Sprite2D")
 metadata/_edit_horizontal_guides_ = [-1.0, -4.0]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("2_3jurx")
+hframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_w63mm")
