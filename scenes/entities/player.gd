@@ -30,7 +30,6 @@ func _process(delta):
 			is_moving = false
 
 func replay():
-	print("replay is called ever")
 	if is_replaying and moves_recording.size() > 0:
 		var move = moves_recording.pop_front()
 		var dir : Vector2
@@ -81,8 +80,14 @@ func _input(event: InputEvent) -> void:
 		var next = get_next_tile(dir)
 		
 		if next.size() > 0:
-			if next[0].collider.is_in_group("solid"): return  # Blocked
-			if next[0].get("collider") is Object_Interactable: next[0].get("collider").overlap(self)
+			if next[0].collider.is_in_group("solid"): 
+				print("Blocked")
+				print(next[0].collider.get_node("CollisionShape2D").disabled)
+				return  # Blocked
+				
+			#if next[0].collider is Object_Interactable: 
+				#for i in range(next.size()):
+					#next[i].get("collider").overlap(self)
 
 		# Record this move, then perform it
 		moves_recording.append(to_move)
