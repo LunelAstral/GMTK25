@@ -16,7 +16,7 @@ func _on_body_entered(body: Node2D) -> void:
 		else:
 			player.moves_recorded = []
 	
-	for checkpoints in connected_checkpoints:
-		queue_free()
+	for checkpoint in connected_checkpoints:
+		checkpoint.queue_free()
 	
 	queue_free()

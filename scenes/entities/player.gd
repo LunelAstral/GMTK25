@@ -2,9 +2,10 @@ class_name Player extends CharacterBody2D
 
 const player_scene := preload("res://scenes/entities/player.tscn")
 
-@export var step_delay : float = 0.25
+@export var step_delay : float = 0.15
 @export var despawn_delay : int = 3
 @export var spawn_point : Object_Interactable
+@export var speed := 80
 
 var is_replaying := false
 var move_target: Vector2
@@ -32,12 +33,13 @@ func _ready():
 
 # FIXME: Need to figure out why "Wait" and holding down input fucks with recording.
 func _process(_delta: float) -> void:
+	if position != move_target:
+		position = position.move_toward(move_target, _delta*speed)
 	if can_act:
 		movement_input()
-		movement()
 
 func _input(event: InputEvent) -> void:
-	if is_replaying and not can_act:
+	if is_replaying or not can_act:
 		return
 	
 	if event.is_action_pressed("Wait"):
@@ -53,38 +55,34 @@ func _input(event: InputEvent) -> void:
 		clone.position = start_pos
 		clone.is_replaying = true
 		clone.moves_recorded = moves_recorded.duplicate(true)
+		clone.moves_recorded.insert(0, Actions.WAIT)  # Prepend dummy move so it starts at same point
 		moves_recorded = []
 		add_sibling(clone)
 		end_input()
 		return
-	
+		
 #endregion
 
-func movement() -> void:
-	if position != move_target:
-		position = move_target
-
 func movement_input() -> void:
-	var init_move_size : int = moves_recorded.size()
-	
 	if is_replaying:
 		return
+		
+	var init_move_size : int = moves_recorded.size()
 	
 	var dir := Input.get_vector("Left", "Right", "Up", "Down")
-
+	
 	if dir != Vector2.ZERO:
 		var next = get_next_tile(dir)
 		
 		if next.size() > 0:
 			if next[0].collider.is_in_group("solid"): 
-				print("Blocked")
 				print(next[0].collider.get_node("CollisionShape2D").disabled)
 				return  # Blocked
 				
 			#if next[0].collider is Object_Interactable: 
 				#for i in range(next.size()):
 					#next[i].get("collider").overlap(self)
-
+		
 		# Record this move, then perform it
 		moves_recorded.append(dir)
 		move_target = get_move_target(dir)
@@ -133,6 +131,7 @@ func get_next_tile(dir) -> Array[Dictionary]:
 	return results
 
 func end_input() -> void:
+	print("Recorded:", moves_recorded)
 	GameGlobalEvents.tick.emit()
 	can_act = false
 	await GameGlobal.delay(step_delay)
