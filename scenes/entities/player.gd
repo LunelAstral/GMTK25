@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 const player_scene := preload("res://scenes/entities/player.tscn")
 
@@ -79,14 +80,15 @@ func _input(event: InputEvent) -> void:
 	if dir != Vector2.ZERO:
 		var next = get_next_tile(dir)
 		
-		if next.size() > 0 and next[0].collider.is_in_group("solid"):
-			return  # Blocked
-		else:
-			# Record this move, then perform it
-			moves_recording.append(to_move)
-			move_target = get_move_target(dir)
-			is_moving = true
-			GameGlobalEvents.tick.emit()
+		if next.size() > 0:
+			if next[0].collider.is_in_group("solid"): return  # Blocked
+			if next[0].get("collider") is Object_Interactable: next[0].get("collider").overlap(self)
+
+		# Record this move, then perform it
+		moves_recording.append(to_move)
+		move_target = get_move_target(dir)
+		is_moving = true
+		GameGlobalEvents.tick.emit()
 			
 func get_move_target(dir):
 	var current_tile: Vector2i = tilemap.local_to_map(position)
