@@ -2,3 +2,4 @@
 extends Node
 
 # TODO: Setup global ticking and priority IDs, probably via function referencing priority value
+signal tick
