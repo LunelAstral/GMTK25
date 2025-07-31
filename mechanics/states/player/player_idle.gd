@@ -2,37 +2,30 @@ extends PlayerState
 
 func handle_input(event: InputEvent) -> void:
 	var dir := Vector2.ZERO
-
+	
+	var to_move = null
+	
 	if event.is_action_pressed("ui_up"):
 		dir = Vector2.UP
+		to_move = moves.UP
 	elif event.is_action_pressed("ui_down"):
 		dir = Vector2.DOWN
+		to_move = moves.DOWN
 	elif event.is_action_pressed("ui_left"):
 		dir = Vector2.LEFT
+		to_move = moves.LEFT
 	elif event.is_action_pressed("ui_right"):
 		dir = Vector2.RIGHT
+		to_move = moves.RIGHT
 
 	if dir != Vector2.ZERO:
-		var tilemap := get_tilemap()
-		var player := get_player()
+		var next = get_next_tile(dir)
 		
-		var current_tile := tilemap.local_to_map(player.position)
-		var target_tile := current_tile + Vector2i(dir)
-		var target_world_pos := tilemap.map_to_local(target_tile)
-		
-		# HACK: See if there's a wall (or anything else) by checking against a point for collision
-		# I really feel like we should use a matrix on the tilemap instead, but I leave it up to you
-		var params := PhysicsPointQueryParameters2D.new()
-		params.position = target_world_pos
-		params.collision_mask = 1  # collision mask of walls
-		params.collide_with_areas = true
-		params.collide_with_bodies = true
-
-		var space_state := player.get_world_2d().direct_space_state
-		var results := space_state.intersect_point(params)
-
-		if results.size() > 0:
+		if next.size() > 0 and next[0].collider.is_in_group("solid"):
+			print(typeof(next[0].collider))
 			return  # Blocked
-
+		
+		moves_recording.append(to_move)
 		finished.emit(MOVE, { "dir": dir })
 		
+		print(moves_recording)
