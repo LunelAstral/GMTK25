@@ -1,6 +1,7 @@
 extends Object_Interactable
 
 @export var start_open : bool = false
+@export var sprite : Sprite2D
 
 var is_open : bool :
 	get:
@@ -19,6 +20,8 @@ func _ready() -> void:
 
 func open():
 	collision_layer = 0
+	sprite.hide()
 
 func close():
 	collision_layer = 1
+	sprite.show()

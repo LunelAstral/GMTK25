@@ -1,11 +1,23 @@
+## The player for the game, pretty much all of the player functionality is here.
 class_name Player extends CharacterBody2D
 
 const player_scene := preload("res://scenes/entities/player.tscn")
 
+# TODO: Start cleaning up code and documenting to make things easier to read. (Lunel can do this)
+# TODO: Implement LOOP charge functionality: premise is having multiple replay sets, and when you switch to an
+# empty one instead of the currently recorded set, when you "loop" the prior recording is still there instead
+# of being deleted like usual. This is where the new recording starts so that when you hit loop on that one you'll
+# have two looped versions of yourself alongside the present you.
+
+@export_category("Node References")
+@export var sprite : AnimatedSprite2D
+
+@export_category("Variables")
 @export var step_delay : float = 0.15
 @export var despawn_delay : int = 3
 @export var spawn_point : Object_Interactable
 @export var speed := 80
+@export var facing := Vector2.DOWN
 
 var is_replaying := false
 var move_target: Vector2
@@ -37,6 +49,8 @@ func _process(_delta: float) -> void:
 		position = position.move_toward(move_target, _delta*speed)
 	if can_act:
 		movement_input()
+	
+	animate()
 
 func _input(event: InputEvent) -> void:
 	if is_replaying or not can_act:
@@ -70,13 +84,13 @@ func movement_input() -> void:
 	var init_move_size : int = moves_recorded.size()
 	
 	var dir := Input.get_vector("Left", "Right", "Up", "Down")
+	facing = dir
 	
 	if dir != Vector2.ZERO:
 		var next = get_next_tile(dir)
 		
-		if next.size() > 0:
-			if next[0].collider.is_in_group("solid"): 
-				print(next[0].collider.get_node("CollisionShape2D").disabled)
+		if next:
+			if next.get_custom_data("solid"): 
 				return  # Blocked
 				
 			#if next[0].collider is Object_Interactable: 
@@ -89,6 +103,30 @@ func movement_input() -> void:
 	
 	if init_move_size != moves_recorded.size():
 		end_input()
+
+func animate() -> void:
+	if facing.x != 0 and facing.y != 0:
+		facing.x = 0
+	
+	facing = facing.normalized()
+	
+	match(facing):
+		Vector2(1, 0):
+			if sprite.animation != "side" or not sprite.flip_h:
+				sprite.flip_h = true
+				sprite.play("side")
+		Vector2(-1, 0):
+			if sprite.animation != "side" or sprite.flip_h:
+				sprite.flip_h = false
+				sprite.play("side")
+		Vector2(0, 1):
+			if sprite.animation != "down":
+				sprite.flip_h = false
+				sprite.play("down")
+		Vector2(0, -1):
+			if sprite.animation != "up":
+				sprite.flip_h = false
+				sprite.play("up")
 
 #region Timey-Wimey
 func replay() -> void:
@@ -112,26 +150,15 @@ func get_move_target(dir):
 	var target_tile: Vector2i = current_tile + Vector2i(dir)
 	return tilemap.map_to_local(target_tile)
 
-func get_next_tile(dir) -> Array[Dictionary]:
+func get_next_tile(dir) -> TileData:
 	var current_tile := tilemap.local_to_map(position)
 	var target_tile := current_tile + Vector2i(dir)
 	var target_world_pos := tilemap.map_to_local(target_tile)
 	
-	# HACK: See if there's a wall (or anything else) by checking against a point for collision
-	# I really feel like we should use a matrix on the tilemap instead, but I leave it up to you
-	var params := PhysicsPointQueryParameters2D.new()
-	params.position = target_world_pos
-	params.collision_mask = 1  # collision mask of walls
-	params.collide_with_areas = true
-	params.collide_with_bodies = true
-
-	var space_state := get_world_2d().direct_space_state
-	var results := space_state.intersect_point(params)
-	
-	return results
+	return tilemap.get_cell_tile_data(target_tile)
 
 func end_input() -> void:
-	print("Recorded:", moves_recorded)
+	#print("Recorded:", moves_recorded)
 	GameGlobalEvents.tick.emit()
 	can_act = false
 	await GameGlobal.delay(step_delay)

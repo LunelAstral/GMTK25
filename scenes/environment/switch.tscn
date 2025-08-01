@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://mkjtsciiw8e6"]
 
 [ext_resource type="Script" uid="uid://d4guj5epwmyk8" path="res://scenes/environment/switch.gd" id="1_w63mm"]
-[ext_resource type="Texture2D" uid="uid://ibt6b6afnonv" path="res://assets/Sprites/switch.png" id="2_3jurx"]
+[ext_resource type="Texture2D" uid="uid://ibt6b6afnonv" path="res://assets/sprites/switch.png" id="2_3jurx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w63mm"]
 size = Vector2(6, 6)

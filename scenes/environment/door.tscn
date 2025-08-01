@@ -1,18 +1,21 @@
 [gd_scene load_steps=4 format=3 uid="uid://buolkf4fj17ou"]
 
 [ext_resource type="Script" uid="uid://cmjiul5gohv4i" path="res://scenes/environment/door.gd" id="1_md2ur"]
-[ext_resource type="Texture2D" uid="uid://co25vxjrt276n" path="res://assets/Sprites/door.png" id="2_hs68i"]
+[ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/sprites/tile_set.png" id="2_hs68i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md2ur"]
 size = Vector2(6, 6)
 
-[node name="Door" type="Area2D" groups=["solid"]]
+[node name="Door" type="Area2D" node_paths=PackedStringArray("sprite") groups=["solid"]]
 script = ExtResource("1_md2ur")
+sprite = NodePath("Sprite2D")
 metadata/_edit_horizontal_guides_ = [-4.0, 4.0]
 metadata/_edit_vertical_guides_ = [-4.0]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_hs68i")
+region_enabled = true
+region_rect = Rect2(0, 8, 8, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_md2ur")
