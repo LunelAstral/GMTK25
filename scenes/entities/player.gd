@@ -43,7 +43,6 @@ func _ready():
 	move_target = position
 	start_pos = position
 
-# FIXME: Need to figure out why "Wait" and holding down input fucks with recording.
 func _process(_delta: float) -> void:
 	if position != move_target:
 		position = position.move_toward(move_target, _delta*speed)
@@ -81,10 +80,14 @@ func movement_input() -> void:
 	if is_replaying:
 		return
 		
+	if Input.is_action_pressed("Wait"):
+		return
+		
 	var init_move_size : int = moves_recorded.size()
 	
 	var dir := Input.get_vector("Left", "Right", "Up", "Down")
 	facing = dir
+	
 	
 	if dir != Vector2.ZERO:
 		var next = get_next_tile(dir)
