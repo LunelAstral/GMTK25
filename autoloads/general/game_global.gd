@@ -13,7 +13,3 @@ func _ready() -> void:
 func delay(time: float) -> void:
 	await get_tree().create_timer(time).timeout
 #endregion
-
-# TODO: Putting a few todos here since I don't have much time to set up the files.
-
-# TODO: Need a spring pad that will "launch" the player to usually unreachable areas.

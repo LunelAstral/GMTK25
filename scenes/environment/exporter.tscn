@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bay8cj5g6xnhx"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_1dloo"]
+
+[node name="Exporter" type="Area2D"]
+metadata/_edit_horizontal_guides_ = [10.0, -8.0, -4.0]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+scale = Vector2(8, 8)
+texture = SubResource("CanvasTexture_1dloo")

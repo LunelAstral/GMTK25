@@ -49,6 +49,7 @@ func _process(_delta: float) -> void:
 	if can_act:
 		movement_input()
 	
+	# FIXME this animate call happens even when the player isnt moving around
 	animate()
 
 func _input(event: InputEvent) -> void:
