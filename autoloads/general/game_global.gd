@@ -15,5 +15,5 @@ func delay(time: float) -> void:
 #endregion
 
 # TODO: Putting a few todos here since I don't have much time to set up the files.
-# TODO: Need a teleporter pad for the player, connected via an export
+
 # TODO: Need a spring pad that will "launch" the player to usually unreachable areas.

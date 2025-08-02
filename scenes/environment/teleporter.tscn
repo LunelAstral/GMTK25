@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpsq8ybyu8e6h"]
+
+[ext_resource type="Script" uid="uid://b1b1pod66mmia" path="res://scenes/environment/booster.gd" id="1_3tno4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_05gn2"]
+size = Vector2(8, 8)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_1dloo"]
+
+[node name="Booster" type="Area2D"]
+script = ExtResource("1_3tno4")
+metadata/_edit_horizontal_guides_ = [10.0, -8.0, -4.0]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_05gn2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+scale = Vector2(8, 8)
+texture = SubResource("CanvasTexture_1dloo")
