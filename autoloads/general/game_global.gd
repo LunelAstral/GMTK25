@@ -17,5 +17,3 @@ func delay(time: float) -> void:
 # TODO: Putting a few todos here since I don't have much time to set up the files.
 # TODO: Need a teleporter pad for the player, connected via an export
 # TODO: Need a spring pad that will "launch" the player to usually unreachable areas.
-# TODO: Need a boost pad that will send players in one direction, either until a wall hit or after a certain
-# amount of tiles.
