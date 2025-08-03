@@ -6,20 +6,21 @@ extends Plate
 
 func overlap(_player: Player):
 	super(_player)
-	$Sprite2D.animation.frame  = 19
+	$Sprite2D.frame  = 19
 	
 	
 func exit(_player: Player):
-	super(_player)
-	if target_door.is_open:
+	super(_player)	
+	
+	if not get_overlapping_bodies():
 		target_door.is_open = true
-		$Sprite2D.animation.free = 16
+		$Sprite2D.frame = 16
 	
 # TODO change exit so instead of instantly turning back on, it waits for 3 calls to this tick
 	
 func tick():
-	if $Sprite2D.animation.frame == 18:
-		$Sprite2D.animation.frame = 19
+	if $Sprite2D.frame == 18:
+		$Sprite2D.frame = 15
 		target_door.is_open = false
 	else:
-		$Sprite2D.animation.frame += 1
+		$Sprite2D.frame += 1
