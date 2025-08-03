@@ -1,7 +1,7 @@
 extends Node
 
 #region Variable Definitions
-var ost_loader : Dictionary[AudioStream, int] = {} ## -1 for no loop
+@export var ost_loader : Dictionary[AudioStream, int] = {} ## -1 for no loop
 
 var song_pool : Dictionary[StringName, Array] ## All available songs
 var main_music_player : AudioStreamPlayer ## The main player, all functions reference this
@@ -37,7 +37,13 @@ func setup_music_players() -> void:
 
 func load_ost() -> void:
 	for stream in ost_loader.keys():
+		var stream_name = stream.resource_path
+		stream_name = stream_name.split("/")
+		stream_name = stream_name.get(stream_name.size() - 1).split(".")[0]
+		stream.resource_name = stream_name.to_snake_case()
 		add_ost(stream, ost_loader.get(stream))
+	
+	ost_loader.clear()
 
 ## Method for adding an ost to [member song_pool]
 func add_ost(stream: AudioStream, loop: int) -> void:

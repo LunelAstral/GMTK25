@@ -6,17 +6,21 @@ var can_interact := true
 
 func _ready() -> void:
 	super()
-	body_exited.connect(_on_body_exited)
 
 func overlap(player : Player) -> void:
 	if "can_interact" in exit_node:
 		if can_interact:
+			match(randi_range(0, 1)):
+				0:
+					SoundManager.play_sound(&"teleporting")
+				1:
+					SoundManager.play_sound(&"teleporting_2")
 			exit_node.can_interact = false
 			player.position = exit_node.position
 			player.move_target = player.position
 	else:
 		push_warning("The connected exit_node is not a teleporter.")
 
-func _on_body_exited(node: Node2D) -> void:
-	if node is Player and not can_interact:
+func exit(player: Player) -> void:
+	if not can_interact:
 		can_interact = true
