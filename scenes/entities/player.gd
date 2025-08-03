@@ -49,7 +49,9 @@ func _process(_delta: float) -> void:
 	if can_act:
 		movement_input()
 	
-	# FIXME this animate call happens even when the player isnt moving around
+	
+	
+		
 	animate()
 
 func _input(event: InputEvent) -> void:
@@ -118,19 +120,27 @@ func animate() -> void:
 		Vector2(1, 0):
 			if sprite.animation != "side" or not sprite.flip_h:
 				sprite.flip_h = true
-				sprite.play("side")
+				sprite.animation = "side"
 		Vector2(-1, 0):
 			if sprite.animation != "side" or sprite.flip_h:
 				sprite.flip_h = false
-				sprite.play("side")
+				sprite.animation = "side"
 		Vector2(0, 1):
 			if sprite.animation != "down":
 				sprite.flip_h = false
-				sprite.play("down")
+				sprite.animation = "down"
 		Vector2(0, -1):
 			if sprite.animation != "up":
 				sprite.flip_h = false
-				sprite.play("up")
+				sprite.animation = "up"
+				
+				
+				
+	#FIXME: Need to make it so that the animations dont play unless the player is moving 
+	if Input.is_action_pressed("Wait"):
+		sprite.pause()
+	else:
+		sprite.play()
 
 #region Timey-Wimey
 func replay() -> void:
@@ -168,3 +178,10 @@ func end_input() -> void:
 	await GameGlobal.delay(step_delay)
 	can_act = true
 #endregion
+
+func boost(direction, duration):
+	# TODO implement this
+	# set self.boost to true
+	# set boost direction
+	# set boost duration
+	# add a segment in movement where each tick will 
