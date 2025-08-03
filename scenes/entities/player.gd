@@ -20,7 +20,7 @@ const player_scene := preload("res://scenes/entities/player.tscn")
 @export var facing := Vector2.DOWN
 
 var boost_duration := 0
-var boost_direction := ""
+var boost_direction: Vector2
 var is_sprung := false
 
 var is_replaying := false
@@ -90,16 +90,9 @@ func movement_input() -> void:
 	var init_move_size : int = moves_recorded.size()
 	
 	var dir := Input.get_vector("Left", "Right", "Up", "Down")
+	
 	if boost_duration != 0:
-		match self.boost_direction:
-			"Left":
-				dir=Vector2.LEFT
-			"Right":
-				dir=Vector2.RIGHT
-			"Down":
-				dir=Vector2.DOWN
-			"Up":
-				dir= Vector2.UP
+		dir = self.boost_direction
 		self.boost_duration -= 1
 		if self.boost_duration == 0:
 			self.is_sprung = false
@@ -110,14 +103,15 @@ func movement_input() -> void:
 		var next = get_next_tile(dir)
 		
 		if next:
-			if next.get_custom_data("solid"): 
+			if next.get_custom_data("solid") and not self.is_sprung: 
 				self.boost_duration = 0
 				return  # Blocked
-				
-			# FIXME: I have no idea how to implement this - Clockknight
-			#if next[0].collider is Object_Interactable: 
-				#for i in range(next.size()):
-					#next[i].get("collider").overlap(self)
+			
+			elif next.get_custom_data("is_spring"):
+				self.spring(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
+			
+			elif next.get_custom_data("boost_duration") != 0:
+				self.boost(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
 		
 		# Record this move, then perform it
 		moves_recorded.append(dir)
@@ -196,8 +190,8 @@ func end_input() -> void:
 #endregion
 
 func boost(direction, duration):
-	self.boost_duration = duration
 	self.boost_direction = direction
+	self.boost_duration = duration
 	
 func spring(direction, duration):
 	self.is_sprung = true
