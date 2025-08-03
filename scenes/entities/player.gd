@@ -21,7 +21,7 @@ const player_scene := preload("res://scenes/entities/player.tscn")
 
 var boost_duration := 0
 var boost_direction: Vector2
-var is_sprung := false
+var is_grounded := true
 
 var is_replaying := false
 var move_target: Vector2
@@ -84,26 +84,29 @@ func movement_input() -> void:
 		dir = self.boost_direction
 		self.boost_duration -= 1
 		if self.boost_duration == 0:
-			self.is_sprung = false
+			self.is_grounded = true
 		
 	facing = dir
 	
 	if dir != Vector2.ZERO:
 		var next = get_next_tile(dir)
 		
-		if next and not self.is_sprung:
-			if next.get_custom_data("solid"): 
-				self.boost_duration = 0
-				return  # Blocked
-			
-			elif next.get_custom_data("is_spring"):
-				self.spring(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
-			
-			elif next.get_custom_data("boost_duration") != 0:
-				self.boost(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
-			
-			elif next.get_custom_data("is_spike"):
-				begin_loop()
+		
+		
+		if next:
+			if self.is_grounded:
+				if next.get_custom_data("is_spring"):
+					self.spring(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
+				
+				elif next.get_custom_data("boost_duration") != 0:
+					self.boost(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
+				
+				elif next.get_custom_data("is_spike"):
+					begin_loop()
+				
+			elif next.get_custom_data("solid"): 
+					self.boost_duration = 0
+					return  # Blocked
 		
 		# Record this move, then perform it
 		moves_recorded.append(dir)
@@ -186,7 +189,7 @@ func boost(direction, duration):
 	self.boost_duration = duration
 	
 func spring(direction, duration):
-	self.is_sprung = true
+	self.is_grounded = false
 	self.boost(direction, duration)
 
 func begin_loop():
