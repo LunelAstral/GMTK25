@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://odiwk6mgulii"]
+
+[ext_resource type="Script" uid="uid://bk31enb4jc84y" path="res://scenes/environment/plate.gd" id="1_damq4"]
+[ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/Sprites/tile_set.png" id="2_nx5re"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_05gn2"]
+size = Vector2(8, 8)
+
+[node name="Plate" type="Area2D"]
+script = ExtResource("1_damq4")
+metadata/_edit_horizontal_guides_ = [10.0, -8.0, -4.0]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_05gn2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_nx5re")
+hframes = 5
+vframes = 11
+frame = 20
