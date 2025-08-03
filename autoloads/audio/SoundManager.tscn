@@ -1,0 +1,26 @@
+[gd_scene load_steps=11 format=3 uid="uid://qwoxarki8u4m"]
+
+[ext_resource type="Script" uid="uid://lapfv4ves71v" path="res://autoloads/audio/sound_manager.gd" id="1_s3c5s"]
+[ext_resource type="AudioStream" uid="uid://bwak856rc1fee" path="res://assets/audio/sfx/Pressure plate activating.wav" id="2_r0odr"]
+[ext_resource type="AudioStream" uid="uid://droeaofp8kh7c" path="res://assets/audio/sfx/Pressure plate deactivating.wav" id="3_xmn15"]
+[ext_resource type="AudioStream" uid="uid://iv24ixvxbtny" path="res://assets/audio/sfx/Shooting soft bullet.wav" id="4_hgj4x"]
+[ext_resource type="AudioStream" uid="uid://dd67td0kjjbyf" path="res://assets/audio/sfx/Spring Tile.wav" id="5_utyp5"]
+[ext_resource type="AudioStream" uid="uid://c024detklxqrx" path="res://assets/audio/sfx/Teleporting 2.wav" id="6_t0nb2"]
+[ext_resource type="AudioStream" uid="uid://b3p5lr32srguu" path="res://assets/audio/sfx/Teleporting.wav" id="7_lmhir"]
+[ext_resource type="AudioStream" uid="uid://d1lutu7txanh5" path="res://assets/audio/sfx/Turret Laser Blast.wav" id="8_nao3e"]
+[ext_resource type="AudioStream" uid="uid://cytgkshmisvgg" path="res://assets/audio/uifx/Menu tic button.wav" id="9_m1m5v"]
+[ext_resource type="AudioStream" uid="uid://b0qwpt7u2tk0g" path="res://assets/audio/uifx/Menu tic.wav" id="10_2vqyi"]
+
+[node name="SoundManager" type="Node"]
+script = ExtResource("1_s3c5s")
+sound_loader = Dictionary[AudioStream, int]({
+ExtResource("2_r0odr"): 2,
+ExtResource("3_xmn15"): 2,
+ExtResource("4_hgj4x"): 2,
+ExtResource("5_utyp5"): 2,
+ExtResource("6_t0nb2"): 2,
+ExtResource("7_lmhir"): 2,
+ExtResource("8_nao3e"): 2,
+ExtResource("9_m1m5v"): 3,
+ExtResource("10_2vqyi"): 3
+})

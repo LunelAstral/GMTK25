@@ -1,9 +1,8 @@
 extends Object_Interactable
 
-@export var direction:String = "Right"
-@export var distance:int = 3
+@export var dir : String = "Right"
+@export var dist : int = 3
 
 
-func overlap(_player : Node2D):
-	print("Boosted " + str(_player) + "in direction: " + direction )
-	_player.spring(self.direction, self.distance)
+func overlap(object : Node2D):
+	object.spring(self.direction, self.distance)

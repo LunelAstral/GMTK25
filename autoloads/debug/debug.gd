@@ -22,7 +22,7 @@ func _input(event: InputEvent) -> void:
 #endregion
 
 #region Helpers
-func _add_line(new_text: String) -> void:
+func _add_line(new_text: Variant) -> void:
 	text += "\n%s" % [new_text]
 #endregion
 
@@ -33,7 +33,7 @@ func _on_text_submit(new_text: String) -> void:
 		var command_text := new_text.split("/")[1]
 		var command := command_text.split(" ")
 		var command_name := command[0]
-		var args : Array[String] = []
+		var args : Array = []
 		if command.size() > 1:
 			args = command.slice(1)
 		
@@ -53,16 +53,23 @@ func _on_text_submit(new_text: String) -> void:
 # Basic idea is to add a method and then it essentially becomes a command because of how _on_text_submit works
 
 ## When called it will either provide a list of available commands or give information about a particular command
-func help(args: Array[String]) -> void:
+func help(args: Array) -> void:
 	if args.size() == 0:
 		var command_list : Array[String] = [
-			"help"
+			"help",
+			"clear"
 		]
 		
 		_add_line("List of Available Commands:")
 		for command in command_list:
-			_add_line("%s" % command)
+			_add_line(command)
 
-func clear(_args: Array[String]) -> void:
+func clear(_args: Array) -> void:
 	text = "Debug Terminal"
+
+func loop_charge(args: Array) -> void:
+	if args.size() == 0:
+		_add_line(GameGlobal.player.loop_charge)
+	elif args.size() == 1:
+		GameGlobal.player.loop_charge = args.get(0).to_int()
 #endregion

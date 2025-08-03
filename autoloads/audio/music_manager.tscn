@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://ds7kuuc4f1mlq"]
+
+[ext_resource type="Script" uid="uid://dmy7las7as3pk" path="res://autoloads/audio/music_manager.gd" id="1_3u18u"]
+[ext_resource type="AudioStream" uid="uid://dslonqxq7f1lb" path="res://assets/audio/ost/ost_stage_1.wav" id="2_kebxf"]
+[ext_resource type="AudioStream" uid="uid://c8taqpfsh7ciw" path="res://assets/audio/ost/ost_stage_3.wav" id="3_0bm37"]
+[ext_resource type="AudioStream" uid="uid://dvccqi1ss2xpo" path="res://assets/audio/ost/Stage 4 Theme.wav" id="4_oeky8"]
+
+[node name="MusicManager" type="Node"]
+script = ExtResource("1_3u18u")
+ost_loader = Dictionary[AudioStream, int]({
+ExtResource("2_kebxf"): -1,
+ExtResource("3_0bm37"): -1,
+ExtResource("4_oeky8"): -1
+})

@@ -6,6 +6,8 @@ extends Node
 #endregion
 
 #region Variables
+@export var sound_loader : Dictionary[AudioStream, Genum.BusID] = {}
+
 var audio_players : Dictionary[Genum.BusID, Array]
 var audio_group_count : int = 4
 var sfx_pool : Dictionary[StringName, AudioStream] = {}
@@ -18,6 +20,8 @@ var playing : Array[StringName]
 #region Built-Ins
 func _ready() -> void:
 	setup_audio_players()
+	
+	load_sounds()
 #endregion
 
 #region Setup Methods
@@ -36,6 +40,16 @@ func setup_audio_players() -> void:
 				audio_players.set(genum, [player])
 			
 			player.finished.connect(_on_player_finished)
+
+func load_sounds() -> void:
+	for sound in sound_loader.keys():
+		var sound_name = sound.resource_path
+		sound_name = sound_name.split("/")
+		sound_name = sound_name.get(sound_name.size() - 1).split(".")[0]
+		sound.resource_name = sound_name.to_snake_case()
+		add_sound(sound, sound_loader.get(sound))
+	
+	sound_loader.clear()
 
 ## Adds a sound to the correct pool based on [param bus].
 func add_sound(sound: AudioStream, bus: Genum.BusID = Genum.BusID.SFX) -> void:
@@ -95,6 +109,8 @@ func find_sound(sound_name: StringName) -> Array:
 	elif ambient_pool.has(sound_name):
 		bus = Genum.BusID.AMBIENT
 		sound = ambient_pool.get(sound_name)
+	else:
+		push_warning("There is no sound by the name: " + sound_name)
 	
 	return [sound, bus]
 

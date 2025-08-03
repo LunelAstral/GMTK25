@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ch0oco0n4tdqd"]
 
-[ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/Sprites/tile_set.png" id="1_s7x4n"]
-[ext_resource type="Script" path="res://scenes/environment/spawner.gd" id="2_5ypt3"]
+[ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/sprites/tile_set.png" id="1_s7x4n"]
+[ext_resource type="Script" uid="uid://dk581pr5bhejp" path="res://scenes/environment/spawner.gd" id="2_5ypt3"]
 
 [node name="Spawner" type="Sprite2D"]
 texture = ExtResource("1_s7x4n")
