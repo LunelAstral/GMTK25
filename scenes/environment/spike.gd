@@ -1,6 +1,6 @@
 extends Object_Interactable
 
 func overlap(_player : Player) -> void:
-	print("killed " + str(_player))
-	if _player.is_grounded:
-		_player.begin_loop()
+	if not _player.sprung:
+		_player.position = _player.start_pos
+		_player.move_target = _player.position

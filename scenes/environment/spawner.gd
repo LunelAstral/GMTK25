@@ -6,3 +6,5 @@ func _ready() -> void:
 			if not player.is_replaying:
 				player.global_position = global_position
 				player.start_pos = player.position
+	
+	hide()

@@ -1,21 +1,23 @@
-[gd_scene load_steps=11 format=4 uid="uid://ckai1xdfp82bu"]
+[gd_scene load_steps=12 format=4 uid="uid://ckai1xdfp82bu"]
 
 [ext_resource type="TileSet" uid="uid://c8wfwxqtd5p7t" path="res://assets/tilesets/world_set.tres" id="1_pimnq"]
 [ext_resource type="PackedScene" uid="uid://gktrw4cvodip" path="res://scenes/entities/player.tscn" id="2_2bnyt"]
+[ext_resource type="Script" uid="uid://cbxieux7dw5ni" path="res://scenes/levels/level_3.gd" id="2_n6eey"]
 [ext_resource type="PackedScene" uid="uid://c04igr2kvh5qq" path="res://scenes/environment/plate_timed.tscn" id="3_n6eey"]
 [ext_resource type="PackedScene" uid="uid://buolkf4fj17ou" path="res://scenes/environment/door.tscn" id="4_qi5uv"]
 [ext_resource type="PackedScene" uid="uid://ch0oco0n4tdqd" path="res://scenes/environment/spawner.tscn" id="5_f6egh"]
 [ext_resource type="PackedScene" uid="uid://bitckdlk838jb" path="res://scenes/environment/spring.tscn" id="7_apo5x"]
 [ext_resource type="PackedScene" uid="uid://dbkoxl8dol5rt" path="res://scenes/environment/checkpoint.tscn" id="8_2bnyt"]
-[ext_resource type="PackedScene" uid="uid://bcynfhcaqbd6m" path="res://scenes/environment/spike.tscn" id="8_josfm"]
 [ext_resource type="PackedScene" uid="uid://5gwdsfb6m6y8" path="res://scenes/environment/goal.tscn" id="9_lgrx1"]
 [ext_resource type="PackedScene" uid="uid://cpsq8ybyu8e6h" path="res://scenes/environment/teleporter.tscn" id="9_n6eey"]
+[ext_resource type="PackedScene" uid="uid://bj5wgb32hdpuv" path="res://scenes/end_scene.tscn" id="11_n6eey"]
 
 [node name="Level_3" type="TileMapLayer"]
 z_as_relative = false
 scale = Vector2(3, 3)
-tile_map_data = PackedByteArray("AAD+/wAAAQACAAEAAAD+/wEAAQACAAEAAAD+/wIAAQACAAEAAAABAP//AQABAAEAAAABAAEAAQAAAAEAAAABAAIAAQAAAAEAAAABAAMAAQACAAEAAAABAAUAAQACAAEAAAABAAQAAQACAAEAAAACAP//AQABAAEAAAADAP//AQABAAEAAAAEAP//AQABAAEAAAAFAP//AQABAAEAAAD//wYAAQABAAEAAAAAAAYAAQABAAEAAAABAAYAAQADAAEAACD+/wYAAQABAAEAAAD+/wMAAQACAAEAAAD9/wYAAQABAAEAAAD8/wYAAQABAAEAAAD7/wYAAQABAAEAAAD7/wQAAQABAAEAAAD8/wQAAQABAAEAAAD9/wQAAQABAAEAAAD6/wUAAQACAAEAAAD6/wYAAQADAAEAADD6/wQAAQADAAEAABD+/wQAAQADAAEAACACAAIAAQAAAAEAAAADAAIAAQABAAEAAAAEAAIAAQAEAAEAADAEAAEAAQAEAAEAAAACAAEAAQAAAAEAAAAFAAEAAQABAAEAAAAGAAEAAQABAAEAAAAHAAEAAQADAAEAACAGAP//AQABAAEAAAAHAP//AQADAAEAAAAHAAAAAQACAAEAAAD///7/AQABAAEAAAAAAP7/AQADAAEAAAD+//7/AQADAAEAABAAAP//AQADAAEAADD+////AQACAAEAAAA=")
+tile_map_data = PackedByteArray("AAD+//7/AAAEAAAAAAD+////AAACAAAAAAD+/wAAAAACAAAAAAD+/wEAAAACAAAAAAD+/wIAAAACAAAAAAABAP//AAABAAAAAAABAAEAAQAAAAEAAAABAAIAAAAEAAAAAAABAAMAAAACAAAAAAABAAUAAAACAAAAAAABAAQAAAACAAAAAAD///7/AAABAAAAAAAAAP7/AAADAAAAAAACAP//AAABAAAAAAADAP//AAABAAAAAAAEAP//AAABAAAAAAAFAP//AAABAAAAAAD//wYAAAABAAAAAAAAAAYAAAABAAAAAAABAAYAAAAEAAAAADD+/wYAAAABAAAAAAD+/wMAAAACAAAAAAAAAP//AAADAAAAADD9/wYAAAABAAAAAAD8/wYAAAABAAAAAAD7/wYAAAABAAAAAAD7/wQAAAABAAAAAAD8/wQAAAABAAAAAAD9/wQAAAABAAAAAAD6/wUAAAACAAAAAAD6/wYAAAADAAAAADD6/wQAAAAEAAAAAAD+/wQAAAAEAAAAADACAAIAAAABAAAAAAADAAIAAAABAAAAAAAEAAIAAAAEAAAAADAEAAEAAAAEAAAAAAACAAEAAQAAAAEAAAAFAAEAAAABAAAAAAAGAAEAAAABAAAAAAAHAAEAAAAEAAAAADAGAP//AAABAAAAAAAHAP//AAADAAAAAAAHAAAAAAACAAAAAAD+/wUAAQAAAAkAAAD9/wUAAQAAAAkAAAABAAAAAQAAAAkAAAA=")
 tile_set = ExtResource("1_pimnq")
+script = ExtResource("2_n6eey")
 
 [node name="Player" parent="." instance=ExtResource("2_2bnyt")]
 z_as_relative = false
@@ -29,6 +31,7 @@ position = Vector2(20, 4)
 
 [node name="Spring" parent="." instance=ExtResource("7_apo5x")]
 position = Vector2(4, 4)
+direction = Vector2(1, 0)
 
 [node name="Plate_Timed" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("3_n6eey")]
 position = Vector2(-4, 44)
@@ -36,10 +39,8 @@ target_door = NodePath("../Door5")
 
 [node name="Plate_Timed2" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("3_n6eey")]
 position = Vector2(-4, 44)
+delay = 0
 target_door = NodePath("../Door")
-
-[node name="Spike" parent="." instance=ExtResource("8_josfm")]
-position = Vector2(12, 4)
 
 [node name="Checkpoint" parent="." instance=ExtResource("8_2bnyt")]
 position = Vector2(27.6667, 4)
@@ -50,6 +51,7 @@ exit_node = NodePath("../Teleporter2")
 
 [node name="Goal" parent="." instance=ExtResource("9_lgrx1")]
 position = Vector2(52.3333, 4)
+next_level = ExtResource("11_n6eey")
 
 [node name="Teleporter2" parent="." node_paths=PackedStringArray("exit_node") instance=ExtResource("9_n6eey")]
 position = Vector2(27.6667, 12)
@@ -57,12 +59,7 @@ exit_node = NodePath("../Teleporter")
 
 [node name="Spring2" parent="." instance=ExtResource("7_apo5x")]
 position = Vector2(-28, 44)
-
-[node name="Spike2" parent="." instance=ExtResource("8_josfm")]
-position = Vector2(-20, 44)
-
-[node name="Spike3" parent="." instance=ExtResource("8_josfm")]
-position = Vector2(-12, 44)
+direction = Vector2(1, 0)
 
 [node name="Door5" parent="." instance=ExtResource("4_qi5uv")]
 position = Vector2(44, 4)

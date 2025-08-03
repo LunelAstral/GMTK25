@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://5gwdsfb6m6y8"]
 
 [ext_resource type="Script" uid="uid://byexogv43myd3" path="res://scenes/environment/goal.gd" id="1_ebq5k"]
-[ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/Sprites/tile_set.png" id="2_7l5hm"]
+[ext_resource type="Texture2D" uid="uid://ubdps86feug2" path="res://assets/sprites/static_interactables.png" id="2_ebq5k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_05gn2"]
 size = Vector2(8, 8)
@@ -14,7 +14,6 @@ metadata/_edit_horizontal_guides_ = [10.0, -8.0, -4.0]
 shape = SubResource("RectangleShape2D_05gn2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_7l5hm")
-hframes = 5
-vframes = 11
-frame = 36
+texture = ExtResource("2_ebq5k")
+region_enabled = true
+region_rect = Rect2(0, 8, 8, 8)

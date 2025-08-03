@@ -1,25 +1,30 @@
-[gd_scene load_steps=8 format=4 uid="uid://i27dmxp2gdrk"]
+[gd_scene load_steps=11 format=4 uid="uid://i27dmxp2gdrk"]
 
 [ext_resource type="TileSet" uid="uid://c8wfwxqtd5p7t" path="res://assets/tilesets/world_set.tres" id="1_6iamk"]
 [ext_resource type="PackedScene" uid="uid://gktrw4cvodip" path="res://scenes/entities/player.tscn" id="2_nsrm0"]
+[ext_resource type="Script" uid="uid://0tgkd03wp6oo" path="res://scenes/levels/level_1.gd" id="2_s8va5"]
 [ext_resource type="PackedScene" uid="uid://c04igr2kvh5qq" path="res://scenes/environment/plate_timed.tscn" id="3_sk5k4"]
 [ext_resource type="PackedScene" uid="uid://ch0oco0n4tdqd" path="res://scenes/environment/spawner.tscn" id="4_oc4kc"]
 [ext_resource type="PackedScene" uid="uid://buolkf4fj17ou" path="res://scenes/environment/door.tscn" id="5_s8va5"]
 [ext_resource type="PackedScene" uid="uid://odiwk6mgulii" path="res://scenes/environment/plate.tscn" id="6_dga24"]
 [ext_resource type="PackedScene" uid="uid://5gwdsfb6m6y8" path="res://scenes/environment/goal.tscn" id="7_oc4kc"]
+[ext_resource type="PackedScene" uid="uid://c7rirhvic6exm" path="res://scenes/environment/booster.tscn" id="9_dga24"]
+[ext_resource type="PackedScene" uid="uid://cysolw34c3kd0" path="res://scenes/levels/level_2.tscn" id="9_qxy0u"]
 
 [node name="Level_1" type="TileMapLayer"]
 z_as_relative = false
 scale = Vector2(3, 3)
-tile_map_data = PackedByteArray("AAD+//7/AQAEAAEAAAD+/wAAAQAEAAEAACD+////AQACAAEAAAD//wAAAQABAAEAAAAAAAAAAQABAAEAAAABAAAAAQABAAEAAAACAAAAAQABAAEAAAADAAAAAQABAAEAAAAEAAAAAQABAAEAAAAFAAAAAQABAAEAAAD///7/AQABAAEAAAAAAP7/AQABAAEAAAABAP7/AQABAAEAAAACAP7/AQABAAEAAAADAP7/AQABAAEAAAAEAP7/AQABAAEAAAAFAP7/AQADAAEAACAGAAAAAQABAAEAAAAIAAAAAQABAAEAAAAJAAAAAQABAAEAAAAKAAAAAQABAAEAAAAHAAAAAQABAAEAAAAIAP7/AQABAAEAAAAJAP7/AQABAAEAAAAKAP7/AQABAAEAAAALAP7/AQADAAEAAAALAAAAAQADAAEAACALAP//AQACAAEAAAAFAP3/AQACAAEAAAAFAPz/AQACAAEAAAAFAPv/AQAEAAEAAAAKAPv/AQADAAEAAAAKAP3/AQADAAEAACAHAP3/AQAEAAEAAAAIAP3/AQABAAEAAAAJAP3/AQABAAEAAAAGAPv/AQABAAEAAAAHAPv/AQABAAEAAAAIAPv/AQABAAEAAAAJAPv/AQABAAEAAAAKAPz/AQACAAEAAAAHAP7/AQACAAEAAAAGAPz/AgAAAAAABAA=")
+tile_map_data = PackedByteArray("AAD+//7/AAAEAAAAAAD+/wAAAAADAAAAADD+////AAACAAAAAAD//wAAAAABAAAAAAAAAAAAAAABAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAD///7/AAABAAAAAAAAAP7/AAABAAAAAAABAP7/AAABAAAAAAACAP7/AAABAAAAAAADAP7/AAABAAAAAAAEAP7/AAABAAAAAAAFAP7/AAAEAAAAADAGAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAP7/AAABAAAAAAAJAP7/AAABAAAAAAAKAP7/AAABAAAAAAALAP7/AAADAAAAAAALAAAAAAAEAAAAADALAP//AAACAAAAAAAFAP3/AAACAAAAAAAFAPz/AAACAAAAAAAFAPv/AAAEAAAAAAAKAPv/AAADAAAAAAAKAP3/AAAEAAAAADAHAP3/AAAEAAAAAAAIAP3/AAABAAAAAAAJAP3/AAABAAAAAAAGAPv/AAABAAAAAAAHAPv/AAABAAAAAAAIAPv/AAABAAAAAAAJAPv/AAABAAAAAAAKAPz/AAACAAAAAAAHAP7/AAADAAAAADA=")
 tile_set = ExtResource("1_6iamk")
+script = ExtResource("2_s8va5")
 
 [node name="Player" parent="." instance=ExtResource("2_nsrm0")]
 z_as_relative = false
 position = Vector2(-4.00775, -4.32616)
 
-[node name="Plate" parent="." instance=ExtResource("3_sk5k4")]
+[node name="Plate" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("3_sk5k4")]
 position = Vector2(28, -4)
+target_door = NodePath("../Door")
 
 [node name="Spawner" parent="." instance=ExtResource("4_oc4kc")]
 position = Vector2(-4, -4)
@@ -30,8 +35,14 @@ position = Vector2(44, -4)
 [node name="Door2" parent="." instance=ExtResource("5_s8va5")]
 position = Vector2(60, -4)
 
-[node name="Plate2" parent="." instance=ExtResource("6_dga24")]
+[node name="Plate2" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("6_dga24")]
 position = Vector2(76, -28)
+target_door = NodePath("../Door2")
 
 [node name="Goal" parent="." instance=ExtResource("7_oc4kc")]
-position = Vector2(83.6667, -3.66667)
+position = Vector2(84, -4)
+next_level = ExtResource("9_qxy0u")
+
+[node name="Booster" parent="." instance=ExtResource("9_dga24")]
+position = Vector2(52, -28)
+direction = Vector2(1, 0)

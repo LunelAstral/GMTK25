@@ -8,7 +8,7 @@
 [node name="MusicManager" type="Node"]
 script = ExtResource("1_3u18u")
 ost_loader = Dictionary[AudioStream, int]({
-ExtResource("2_kebxf"): -1,
-ExtResource("3_0bm37"): -1,
-ExtResource("4_oeky8"): -1
+ExtResource("2_kebxf"): 0,
+ExtResource("3_0bm37"): 0,
+ExtResource("4_oeky8"): 0
 })

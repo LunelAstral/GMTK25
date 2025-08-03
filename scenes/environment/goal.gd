@@ -1,5 +1,7 @@
 extends Object_Interactable
 
+@export var next_level : PackedScene
+
 func overlap(_player: Player):
-	pass
-	# FIXME this should trigger global to go to the next level
+	if next_level:
+		GameGlobalEvents.load_scene.emit(next_level)

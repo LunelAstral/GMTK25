@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if current_song != &"":
-		if song_pool.get(current_song).get(1) != -1 and not crossfade:
+		if song_pool.get(current_song).get(1) > 0 and not crossfade:
 			var current_pos = main_music_player.get_playback_position()
 			if current_pos >= song_pool.get(current_song).get(1):
 				main_music_player.seek(0)
@@ -48,6 +48,8 @@ func load_ost() -> void:
 ## Method for adding an ost to [member song_pool]
 func add_ost(stream: AudioStream, loop: int) -> void:
 	print("added %s" % stream.resource_name)
+	#if loop == 0:
+	#	stream.loop_mode = 1
 	song_pool.set(stream.resource_name, [stream, loop])
 
 ## Method for removing an ost from [member song_pool]

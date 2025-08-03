@@ -4,11 +4,6 @@ class_name Player extends CharacterBody2D
 const player_scene := preload("res://scenes/entities/player.tscn")
 
 # TODO: Start cleaning up code and documenting to make things easier to read. (Lunel can do this)
-# TODO: Implement LOOP charge functionality: premise is having multiple replay sets, and when you switch to an
-# empty one instead of the currently recorded set, when you "loop" the prior recording is still there instead
-# of being deleted like usual. This is where the new recording starts so that when you hit loop on that one you'll
-# have two looped versions of yourself alongside the present you.
-
 @export_category("Node References")
 @export var sprite : AnimatedSprite2D
 
@@ -21,12 +16,12 @@ const player_scene := preload("res://scenes/entities/player.tscn")
 
 var boost_duration := 0
 var boost_direction: Vector2
-var is_grounded := true
 var loop_charge : int = 1
 
 var is_replaying := false
 var move_target: Vector2
 var can_act := true
+var sprung := false
 
 var tilemap: TileMapLayer
 var start_pos = Vector2.ZERO
@@ -41,6 +36,8 @@ enum Actions {
 
 #region Built-Ins
 func _ready():
+	add_to_group(&"player")
+	
 	if is_replaying:
 		GameGlobalEvents.tick.connect(replay)
 	else:
@@ -101,7 +98,7 @@ func movement_input() -> void:
 		dir = self.boost_direction
 		self.boost_duration -= 1
 		if self.boost_duration == 0:
-			self.is_grounded = false
+			self.sprung = false
 		
 	facing = dir
 	
@@ -109,22 +106,29 @@ func movement_input() -> void:
 		var next = get_next_tile(dir)
 		
 		if next:
-			if next.get_custom_data("is_spring"):
-				self.spring(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
-			
-			elif next.get_custom_data("boost_duration") != 0:
-				self.boost(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
-			
-			elif next.get_custom_data("is_spike"):
-				begin_loop()
-				
-			if next.get_custom_data("is_spike"):
+			if next.get_custom_data("is_spike") and not sprung:
 				moves_recorded = []
 				check_records_size()
-				begin_loop()
-			elif next.get_custom_data("solid") and  is_grounded: 
+				position = start_pos
+				move_target = start_pos
+				dir = Vector2.ZERO
+				return
+			elif next.get_custom_data("solid") and not sprung: 
 					self.boost_duration = 0
-					return  # Blockaed
+					return  # Blocked
+		else:
+			var target_pos = get_move_target(dir)
+			var space_state = get_world_2d().direct_space_state
+			var query = PhysicsPointQueryParameters2D.new()
+			query.position = tilemap.to_global(target_pos)
+			query.collide_with_areas = true
+			var result = space_state.intersect_point(query)
+			
+			if result.size() > 0:
+				for res in result:
+					if "is_open" in res.collider:
+						if not res.collider.is_open:
+							return
 		
 		# Record this move, then perform it
 		record(dir)
@@ -170,6 +174,8 @@ func replay() -> void:
 		
 		if move is Vector2:
 			move_target = get_move_target(move)
+#			if self.sprung:
+#				GameGlobalEvents.tick.emit()
 		elif move is Actions:
 			if move == Actions.WAIT:
 				return
@@ -188,7 +194,6 @@ func get_move_target(dir):
 func get_next_tile(dir) -> TileData:
 	var current_tile := tilemap.local_to_map(position)
 	var target_tile := current_tile + Vector2i(dir)
-	var target_world_pos := tilemap.map_to_local(target_tile)
 	
 	return tilemap.get_cell_tile_data(target_tile)
 
@@ -200,20 +205,11 @@ func end_input() -> void:
 #endregion
 
 func boost(direction, duration):
-	match direction:
-		"Left":
-			self.boost_direction = Vector2.LEFT
-		"Right":
-			self.boost_direction =Vector2.RIGHT
-		"Up":
-			self.boost_direction =Vector2.UP
-		"Down":
-			self.boost_direction = Vector2.DOWN
-	
+	self.boost_direction = direction
 	self.boost_duration = duration
 	
 func spring(direction, duration):
-	self.is_grounded = false
+	self.sprung = true
 	self.boost(direction, duration)
 
 func begin_loop():
@@ -235,6 +231,7 @@ func begin_loop():
 		else:
 			record_focused += 1
 		end_input()
+		GameGlobalEvents.looped.emit()
 		return
 
 func create_loop(clone: Player, moves: Array[Variant]) -> void:

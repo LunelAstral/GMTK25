@@ -14,6 +14,14 @@ func _ready() -> void:
 	
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
+	GameGlobalEvents.tick.connect(tick)
+	GameGlobalEvents.looped.connect(reset)
+
+func tick() -> void:
+	pass
+
+func reset() -> void:
+	pass
 
 func overlap(_player : Player) -> void:
 	pass

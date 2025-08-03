@@ -1,20 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://c04igr2kvh5qq"]
 
 [ext_resource type="Script" uid="uid://f0b54gf6uued" path="res://scenes/environment/plate_timed.gd" id="1_uf5p0"]
-[ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/Sprites/tile_set.png" id="2_qcsy0"]
+[ext_resource type="Texture2D" uid="uid://dhqtyrnn12mqs" path="res://assets/sprites/timed_plate.png" id="2_uf5p0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_05gn2"]
 size = Vector2(8, 8)
 
-[node name="Plate_Timed" type="Area2D"]
+[node name="Plate_Timed" type="Area2D" node_paths=PackedStringArray("sprite")]
 script = ExtResource("1_uf5p0")
+sprite = NodePath("Sprite2D")
 metadata/_edit_horizontal_guides_ = [10.0, -8.0, -4.0]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_05gn2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_qcsy0")
+texture = ExtResource("2_uf5p0")
 hframes = 5
-vframes = 11
-frame = 15
