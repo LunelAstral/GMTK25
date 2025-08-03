@@ -1,4 +1,4 @@
-extends Area2D
+extends Object_Interactable
 
 @export var direction:String = "Right"
 @export var distance:int = -1

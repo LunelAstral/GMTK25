@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://d124tgklysudc"]
+[gd_scene load_steps=4 format=3 uid="uid://dh2dcrfwi4igb"]
 
 [ext_resource type="Script" uid="uid://dqqxn7tf21n6p" path="res://scenes/environment/teleporter.gd" id="1_x2ycy"]
 
