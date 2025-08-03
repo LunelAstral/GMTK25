@@ -1,6 +1,8 @@
 ## The actual Global containing all of the game's core information.
 extends Node
 
+var player : Player
+
 #region Built-Ins
 func _ready() -> void:
 	# Loading up sounds and then deleting the sound_loader as it's no longer necessary

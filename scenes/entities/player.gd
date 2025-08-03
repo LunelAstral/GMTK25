@@ -22,15 +22,18 @@ const player_scene := preload("res://scenes/entities/player.tscn")
 var boost_duration := 0
 var boost_direction: Vector2
 var is_grounded := true
+var loop_charge : int = 1
 
 var is_replaying := false
 var move_target: Vector2
 var can_act := true
+var sprung := false
 
 var tilemap: TileMapLayer
 var start_pos = Vector2.ZERO
 
-var moves_recorded = []
+var moves_recorded = [[]]
+var record_focused : int = 0
 
 enum Actions {
 	WAIT,
@@ -41,6 +44,8 @@ enum Actions {
 func _ready():
 	if is_replaying:
 		GameGlobalEvents.tick.connect(replay)
+	else:
+		GameGlobal.player = self
 	
 	tilemap = get_parent() if get_parent() is TileMapLayer else null
 	
@@ -48,6 +53,9 @@ func _ready():
 	start_pos = position
 
 func _process(_delta: float) -> void:
+	if moves_recorded.size() != loop_charge:
+		check_records_size()
+	
 	if position != move_target:
 		position = position.move_toward(move_target, _delta*speed)
 	if can_act:
@@ -60,23 +68,33 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	if event.is_action_pressed("Wait"):
-		moves_recorded.append(Actions.WAIT)
+		record(Actions.WAIT)
 		end_input()
 		return
 	
 	if event.is_action_pressed("Replay"):
 		begin_loop()
-		
+	
+	if event.is_action_pressed("Record 1"):
+		record_focused = 0
+	elif event.is_action_pressed("Record 2"):
+		if loop_charge > 1:
+			if moves_recorded.size() < 2:
+				moves_recorded.append([])
+			record_focused = 1
+	elif event.is_action_pressed("Record 3"):
+		if loop_charge > 2:
+			if moves_recorded.size() < 3:
+				for i in range(3 - moves_recorded.size()):
+					moves_recorded.append([])
+			record_focused = 2
 #endregion
 
 func movement_input() -> void:
 	if is_replaying:
 		return
-		
-	if Input.is_action_pressed("Wait"):
-		return
-		
-	var init_move_size : int = moves_recorded.size()
+	
+	var init_move_size : int = moves_recorded.get(record_focused).size()
 	
 	var dir := Input.get_vector("Left", "Right", "Up", "Down")
 	
@@ -84,29 +102,35 @@ func movement_input() -> void:
 		dir = self.boost_direction
 		self.boost_duration -= 1
 		if self.boost_duration == 0:
-			self.is_grounded = true
+			self.sprung = true
 		
 	facing = dir
-	
 	
 	if dir != Vector2.ZERO:
 		var next = get_next_tile(dir)
 		
-		
-		
 		if next:
 			if next.get_custom_data("is_spike") and self.is_grounded:
 				begin_loop()
+			if next.get_custom_data("is_spring"):
+				self.spring(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
+			
+			elif next.get_custom_data("boost_duration") != 0:
+				self.boost(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
+			
+			elif next.get_custom_data("is_spike"):
+				begin_loop()
 				
 			elif next.get_custom_data("solid"): 
+			if next.get_custom_data("solid") and not sprung: 
 					self.boost_duration = 0
 					return  # Blockaed
 		
 		# Record this move, then perform it
-		moves_recorded.append(dir)
+		record(dir)
 		move_target = get_move_target(dir)
 	
-	if init_move_size != moves_recorded.size():
+	if init_move_size != moves_recorded.get(record_focused).size():
 		end_input()
 
 func animate() -> void:
@@ -141,15 +165,15 @@ func animate() -> void:
 
 #region Timey-Wimey
 func replay() -> void:
-	if moves_recorded.size() > 0:
-		var move = moves_recorded.pop_front()
+	if moves_recorded.get(0).size() > 0:
+		var move = moves_recorded.get(0).pop_front()
 		
 		if move is Vector2:
 			move_target = get_move_target(move)
 		elif move is Actions:
 			if move == Actions.WAIT:
 				return
-	elif moves_recorded.size() == 0:
+	elif moves_recorded.get(0).size() == 0:
 		for i in range(despawn_delay):
 			await GameGlobalEvents.tick
 		queue_free()
@@ -169,7 +193,6 @@ func get_next_tile(dir) -> TileData:
 	return tilemap.get_cell_tile_data(target_tile)
 
 func end_input() -> void:
-	#print("Recorded:", moves_recorded)
 	GameGlobalEvents.tick.emit()
 	can_act = false
 	await GameGlobal.delay(step_delay)
@@ -190,19 +213,43 @@ func boost(direction, duration):
 	self.boost_duration = duration
 	
 func spring(direction, duration):
-	self.is_grounded = false
+	self.sprung = true
 	self.boost(direction, duration)
 
 func begin_loop():
 		position = start_pos
 		move_target = position
 		
-		var clone = player_scene.instantiate()
-		clone.position = start_pos
-		clone.is_replaying = true
-		clone.moves_recorded = moves_recorded.duplicate(true)
-		clone.moves_recorded.insert(0, Actions.WAIT)  # Prepend dummy move so it starts at same point
-		moves_recorded = []
-		add_sibling(clone)
+		for player in get_tree().get_nodes_in_group(&"player"):
+			if player.is_replaying:
+				player.queue_free()
+		
+		for i in moves_recorded:
+			var clone = player_scene.instantiate()
+			create_loop(clone, i)
+		
+		if record_focused == loop_charge - 1:
+			moves_recorded = []
+			for i in range(loop_charge):
+				moves_recorded.append([])
+		else:
+			record_focused += 1
 		end_input()
 		return
+
+func create_loop(clone: Player, moves: Array[Variant]) -> void:
+		clone.position = start_pos
+		clone.is_replaying = true
+		clone.moves_recorded = [moves.duplicate(true)]
+		clone.moves_recorded.get(0).insert(0, Actions.WAIT)  # Prepend dummy move so it starts at same point
+		add_sibling(clone)
+
+# TODO players should loop a wait command once their loop is over
+
+func record(action: Variant) -> void:
+	moves_recorded.get(record_focused).append(action)
+
+func check_records_size() -> void:
+	for i in range(loop_charge):
+		if moves_recorded.size() < i + 1:
+			moves_recorded.append([])
