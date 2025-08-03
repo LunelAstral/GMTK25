@@ -27,7 +27,6 @@ var loop_charge : int = 1
 var is_replaying := false
 var move_target: Vector2
 var can_act := true
-var sprung := false
 
 var tilemap: TileMapLayer
 var start_pos = Vector2.ZERO
@@ -102,7 +101,7 @@ func movement_input() -> void:
 		dir = self.boost_direction
 		self.boost_duration -= 1
 		if self.boost_duration == 0:
-			self.sprung = true
+			self.is_grounded = false
 		
 	facing = dir
 	
@@ -123,7 +122,7 @@ func movement_input() -> void:
 				moves_recorded = []
 				check_records_size()
 				begin_loop()
-			elif next.get_custom_data("solid") and not sprung: 
+			elif next.get_custom_data("solid") and  is_grounded: 
 					self.boost_duration = 0
 					return  # Blockaed
 		
@@ -214,7 +213,7 @@ func boost(direction, duration):
 	self.boost_duration = duration
 	
 func spring(direction, duration):
-	self.sprung = true
+	self.is_grounded = false
 	self.boost(direction, duration)
 
 func begin_loop():

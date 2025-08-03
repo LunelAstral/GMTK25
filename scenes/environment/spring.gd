@@ -1,7 +1,7 @@
 extends Object_Interactable
 
-@export var dir : String = "Right"
-@export var dist : int = 3
+@export var direction : String = "Right"
+@export var distance : int = 3
 
 
 func overlap(object : Node2D):

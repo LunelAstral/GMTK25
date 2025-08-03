@@ -1,9 +1,6 @@
 extends Plate
 
 
-
-
-
 func overlap(_player: Player):
 	super(_player)
 	$Sprite2D.frame  = 19
