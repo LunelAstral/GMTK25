@@ -1,6 +1,6 @@
 extends Object_Interactable
 
-func overlap(object : Node2D) -> void:
-	print("killed " + str(object))
-	if object.is_grounded:
-		object.begin_loop()
+func overlap(_player : Player) -> void:
+	print("killed " + str(_player))
+	if _player.is_grounded:
+		_player.begin_loop()

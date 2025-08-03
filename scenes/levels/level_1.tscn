@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://i27dmxp2gdrk"]
+[gd_scene load_steps=8 format=4 uid="uid://i27dmxp2gdrk"]
 
 [ext_resource type="TileSet" uid="uid://c8wfwxqtd5p7t" path="res://assets/tilesets/world_set.tres" id="1_6iamk"]
 [ext_resource type="PackedScene" uid="uid://gktrw4cvodip" path="res://scenes/entities/player.tscn" id="2_nsrm0"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ch0oco0n4tdqd" path="res://scenes/environment/spawner.tscn" id="4_oc4kc"]
 [ext_resource type="PackedScene" uid="uid://buolkf4fj17ou" path="res://scenes/environment/door.tscn" id="5_s8va5"]
 [ext_resource type="PackedScene" uid="uid://odiwk6mgulii" path="res://scenes/environment/plate.tscn" id="6_dga24"]
+[ext_resource type="PackedScene" uid="uid://5gwdsfb6m6y8" path="res://scenes/environment/goal.tscn" id="7_oc4kc"]
 
 [node name="Level_1" type="TileMapLayer"]
 z_as_relative = false
@@ -18,16 +19,19 @@ z_as_relative = false
 position = Vector2(-4.00775, -4.32616)
 
 [node name="Plate" parent="." instance=ExtResource("3_sk5k4")]
-position = Vector2(27.6667, -3.66667)
+position = Vector2(28, -4)
 
 [node name="Spawner" parent="." instance=ExtResource("4_oc4kc")]
-position = Vector2(-4, -3.66667)
+position = Vector2(-4, -4)
 
 [node name="Door" parent="." instance=ExtResource("5_s8va5")]
-position = Vector2(44, -3.66667)
+position = Vector2(44, -4)
 
 [node name="Door2" parent="." instance=ExtResource("5_s8va5")]
 position = Vector2(60, -4)
 
 [node name="Plate2" parent="." instance=ExtResource("6_dga24")]
-position = Vector2(75.6667, -28)
+position = Vector2(76, -28)
+
+[node name="Goal" parent="." instance=ExtResource("7_oc4kc")]
+position = Vector2(83.6667, -3.66667)

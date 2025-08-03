@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://cysolw34c3kd0"]
+[gd_scene load_steps=10 format=4 uid="uid://cysolw34c3kd0"]
 
 [ext_resource type="TileSet" uid="uid://c8wfwxqtd5p7t" path="res://assets/tilesets/world_set.tres" id="1_g2h2n"]
 [ext_resource type="PackedScene" uid="uid://gktrw4cvodip" path="res://scenes/entities/player.tscn" id="2_ra442"]
@@ -8,11 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://odiwk6mgulii" path="res://scenes/environment/plate.tscn" id="6_ibugp"]
 [ext_resource type="PackedScene" uid="uid://bitckdlk838jb" path="res://scenes/environment/spring.tscn" id="7_8qukl"]
 [ext_resource type="PackedScene" uid="uid://bcynfhcaqbd6m" path="res://scenes/environment/spike.tscn" id="8_8qukl"]
+[ext_resource type="PackedScene" uid="uid://5gwdsfb6m6y8" path="res://scenes/environment/goal.tscn" id="9_3p04p"]
 
 [node name="Level_2" type="TileMapLayer"]
 z_as_relative = false
 scale = Vector2(3, 3)
-tile_map_data = PackedByteArray("AAADAAAAAQAEAAEAACAEAAAAAQABAAEAAAAFAAAAAQABAAEAAAAGAAAAAQABAAEAAAAIAAAAAQABAAEAAAAJAAAAAQABAAEAAAAKAAAAAQABAAEAAAAHAAAAAQABAAEAAAALAAAAAQADAAEAACAFAPv/AQABAAEAAAAGAPv/AQABAAEAAAAHAPv/AQABAAEAAAAIAPv/AQADAAEAAAD+//7/AQAEAAEAACD+//3/AQACAAEAAAD+//z/AQACAAEAAAD+//v/AQAEAAEAAAD///v/AQABAAEAAAAAAPv/AQABAAEAAAABAPv/AQABAAEAAAACAPv/AQABAAEAAAADAPv/AQABAAEAAAAEAPv/AQABAAEAAAD///7/AQABAAEAAAAAAP7/AQABAAEAAAABAP7/AQABAAEAAAACAP7/AQABAAEAAAAGAPz/AQAAAAkAAAACAPz/AQAAAAkAAAAFAP3/AQAEAAEAAAAFAP7/AQADAAEAACADAP7/AQADAAEAAAAGAP3/AQABAAEAAAAHAP3/AQABAAEAAAAIAPz/AQACAAEAAAAIAP3/AQAAAAEAAAAEAPz/AgAAAAAAAgADAP//AQACAAEAAAALAP7/AQACAAEAAAALAP3/AQADAAEAAAAJAP3/AQABAAEAAAAKAP3/AQABAAEAAAAMAP7/AQABAAEAAAANAP7/AQABAAEAAAAMAAAAAQABAAEAAAANAAAAAQABAAEAAAAMAP//AQAAAAkAAAAOAP7/AQABAAEAAAAPAP7/AQABAAEAAAAPAAAAAQABAAEAAAAOAAAAAQABAAEAAAAQAP//AQACAAEAAAAQAP7/AQADAAEAAAAQAAAAAQADAAEAACA=")
+tile_map_data = PackedByteArray("AAADAAAAAQAEAAEAACAEAAAAAQABAAEAAAAFAAAAAQABAAEAAAAGAAAAAQABAAEAAAAIAAAAAQABAAEAAAAJAAAAAQABAAEAAAAKAAAAAQABAAEAAAAHAAAAAQABAAEAAAALAAAAAQADAAEAACAFAPv/AQABAAEAAAAGAPv/AQABAAEAAAAHAPv/AQABAAEAAAAIAPv/AQADAAEAAAD+//7/AQAEAAEAACD+//3/AQACAAEAAAD+//z/AQACAAEAAAD+//v/AQAEAAEAAAD///v/AQABAAEAAAAAAPv/AQABAAEAAAABAPv/AQABAAEAAAACAPv/AQABAAEAAAADAPv/AQABAAEAAAAEAPv/AQABAAEAAAD///7/AQABAAEAAAAAAP7/AQABAAEAAAABAP7/AQABAAEAAAACAP7/AQABAAEAAAAGAPz/AQAAAAkAAAACAPz/AQAAAAkAAAAFAP3/AQAEAAEAAAAFAP7/AQADAAEAACADAP7/AQADAAEAAAAGAP3/AQABAAEAAAAHAP3/AQABAAEAAAAIAPz/AQACAAEAAAAIAP3/AQAAAAEAAAAEAPz/AgAAAAAAAgADAP//AQACAAEAAAALAP7/AQACAAEAAAALAP3/AQADAAEAAAAJAP3/AQABAAEAAAAKAP3/AQABAAEAAAAMAP7/AQABAAEAAAANAP7/AQABAAEAAAAMAAAAAQABAAEAAAANAAAAAQABAAEAAAAOAP7/AQABAAEAAAAPAP7/AQABAAEAAAAPAAAAAQABAAEAAAAOAAAAAQABAAEAAAAQAP//AQACAAEAAAAQAP7/AQADAAEAAAAQAAAAAQADAAEAACA=")
 tile_set = ExtResource("1_g2h2n")
 
 [node name="Player" parent="." instance=ExtResource("2_ra442")]
@@ -20,11 +21,11 @@ z_as_relative = false
 position = Vector2(-4, -28.3333)
 
 [node name="Plate" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("3_l37oo")]
-position = Vector2(77, -4.33333)
+position = Vector2(76, -4)
 target_door = NodePath("../Door")
 
 [node name="Door" parent="." instance=ExtResource("4_qpwj6")]
-position = Vector2(116.667, -4)
+position = Vector2(116, -4)
 
 [node name="Spawner" parent="." instance=ExtResource("5_ibugp")]
 position = Vector2(-4, -28)
@@ -40,4 +41,10 @@ position = Vector2(36, -12)
 position = Vector2(92, -4)
 
 [node name="Spike" parent="." instance=ExtResource("8_8qukl")]
-position = Vector2(108.333, -4.33333)
+position = Vector2(108, -4)
+
+[node name="Goal" parent="." instance=ExtResource("9_3p04p")]
+position = Vector2(124, -4)
+
+[node name="Spike2" parent="." instance=ExtResource("8_8qukl")]
+position = Vector2(100, -4)
