@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://dbb58dkdy6bid"]
+[gd_scene load_steps=10 format=4 uid="uid://dbb58dkdy6bid"]
 
 [ext_resource type="TileSet" uid="uid://c8wfwxqtd5p7t" path="res://assets/tilesets/world_set.tres" id="1_fr1um"]
 [ext_resource type="PackedScene" uid="uid://gktrw4cvodip" path="res://scenes/entities/player.tscn" id="3_48ne7"]
@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://c7rirhvic6exm" path="res://scenes/environment/booster.tscn" id="4_6xh4u"]
 [ext_resource type="PackedScene" uid="uid://bitckdlk838jb" path="res://scenes/environment/spring.tscn" id="5_cyt5c"]
 [ext_resource type="PackedScene" uid="uid://bcynfhcaqbd6m" path="res://scenes/environment/spike.tscn" id="6_7x1jh"]
+[ext_resource type="PackedScene" uid="uid://odiwk6mgulii" path="res://scenes/environment/plate.tscn" id="7_7x1jh"]
+[ext_resource type="PackedScene" uid="uid://buolkf4fj17ou" path="res://scenes/environment/door.tscn" id="8_hfwtw"]
+[ext_resource type="PackedScene" uid="uid://c04igr2kvh5qq" path="res://scenes/environment/plate_timed.tscn" id="9_hfwtw"]
 
 [node name="TestLevel" type="TileMapLayer"]
 z_as_relative = false
@@ -18,22 +21,36 @@ tile_set = ExtResource("1_fr1um")
 z_as_relative = false
 position = Vector2(-36, -20)
 
-[node name="Teleporter" parent="." node_paths=PackedStringArray("exit") instance=ExtResource("3_fr1um")]
+[node name="Teleporter" parent="." node_paths=PackedStringArray("exit_node") instance=ExtResource("3_fr1um")]
 position = Vector2(-43.9641, 20.0788)
-exit = NodePath("../Teleporter2")
+exit_node = NodePath("../Teleporter2")
 
-[node name="Teleporter2" parent="." node_paths=PackedStringArray("exit") instance=ExtResource("3_fr1um")]
+[node name="Teleporter2" parent="." node_paths=PackedStringArray("exit_node") instance=ExtResource("3_fr1um")]
 position = Vector2(44.0358, 19.9211)
-exit = NodePath("../Teleporter")
+exit_node = NodePath("../Teleporter")
 
 [node name="Booster" parent="." instance=ExtResource("4_6xh4u")]
 position = Vector2(-35.9522, -12.1426)
 
 [node name="Spring" parent="." instance=ExtResource("5_cyt5c")]
-position = Vector2(-4.01582, 3.98412)
+position = Vector2(11.9854, 3.71419)
 
 [node name="Spike" parent="." instance=ExtResource("6_7x1jh")]
-position = Vector2(3.98412, 4.01582)
+position = Vector2(19.9853, 3.74589)
 
 [node name="Spike2" parent="." instance=ExtResource("6_7x1jh")]
-position = Vector2(11.9841, 4.04752)
+position = Vector2(27.9853, 3.77758)
+
+[node name="Plate" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("7_7x1jh")]
+position = Vector2(-4.04752, 11.9841)
+target_door = NodePath("../Door")
+
+[node name="Door" parent="." instance=ExtResource("8_hfwtw")]
+position = Vector2(3.95242, 12.0158)
+
+[node name="Plate2" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("9_hfwtw")]
+position = Vector2(-12.0158, 3.95242)
+target_door = NodePath("../Door2")
+
+[node name="Door2" parent="." instance=ExtResource("8_hfwtw")]
+position = Vector2(3.98412, 4.01582)

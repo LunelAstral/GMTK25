@@ -13,11 +13,19 @@ func _ready() -> void:
 		push_warning("This node works better with a tilemap set to parent.")
 	
 	body_entered.connect(_on_body_entered)
-	
+	body_exited.connect(_on_body_exited)
 
 func overlap(_player : Player) -> void:
+	pass
+	
+func exit(_player: Player) -> void:
 	pass
 
 func _on_body_entered(node: Node2D) -> void:
 	if node is Player:
 		overlap(node)
+
+
+func _on_body_exited(node: Node2D) -> void:
+	if node is Player:
+		exit(node)

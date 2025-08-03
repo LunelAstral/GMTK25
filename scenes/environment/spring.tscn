@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bitckdlk838jb"]
+[gd_scene load_steps=8 format=3 uid="uid://bitckdlk838jb"]
 
 [ext_resource type="Script" uid="uid://oopca7cidog" path="res://scenes/environment/spring.gd" id="1_boo62"]
 [ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/Sprites/tile_set.png" id="2_0gmq7"]
@@ -6,31 +6,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_05gn2"]
 size = Vector2(8, 8)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4wyfg"]
-atlas = ExtResource("2_0gmq7")
-region = Rect2(0, 48, 8, 8)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2wgsq"]
-atlas = ExtResource("2_0gmq7")
-region = Rect2(8, 48, 8, 8)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_45up0"]
 atlas = ExtResource("2_0gmq7")
 region = Rect2(0, 48, 8, 8)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_s5c4e"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4wyfg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2wgsq")
-}],
-"loop": true,
-"name": &"Active",
-"speed": 3.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_45up0")
@@ -44,23 +25,8 @@ animations = [{
 atlas = ExtResource("2_0gmq7")
 region = Rect2(16, 40, 8, 8)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fplie"]
-atlas = ExtResource("2_0gmq7")
-region = Rect2(8, 40, 8, 8)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_g3ypd"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u8m8b")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fplie")
-}],
-"loop": true,
-"name": &"Active",
-"speed": 3.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u8m8b")

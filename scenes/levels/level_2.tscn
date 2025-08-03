@@ -1,14 +1,37 @@
-[gd_scene load_steps=3 format=4 uid="uid://cysolw34c3kd0"]
+[gd_scene load_steps=8 format=4 uid="uid://cysolw34c3kd0"]
 
 [ext_resource type="TileSet" uid="uid://c8wfwxqtd5p7t" path="res://assets/tilesets/world_set.tres" id="1_g2h2n"]
 [ext_resource type="PackedScene" uid="uid://gktrw4cvodip" path="res://scenes/entities/player.tscn" id="2_ra442"]
+[ext_resource type="PackedScene" uid="uid://c04igr2kvh5qq" path="res://scenes/environment/plate_timed.tscn" id="3_l37oo"]
+[ext_resource type="PackedScene" uid="uid://buolkf4fj17ou" path="res://scenes/environment/door.tscn" id="4_qpwj6"]
+[ext_resource type="PackedScene" uid="uid://ch0oco0n4tdqd" path="res://scenes/environment/spawner.tscn" id="5_ibugp"]
+[ext_resource type="PackedScene" uid="uid://odiwk6mgulii" path="res://scenes/environment/plate.tscn" id="6_ibugp"]
+[ext_resource type="PackedScene" uid="uid://bitckdlk838jb" path="res://scenes/environment/spring.tscn" id="7_8qukl"]
 
 [node name="Level_2" type="TileMapLayer"]
 z_as_relative = false
 scale = Vector2(3, 3)
-tile_map_data = PackedByteArray("AAD+/wAAAQAEAAEAACD+////AQACAAEAAAD//wAAAQABAAEAAAAAAAAAAQABAAEAAAABAAAAAQABAAEAAAACAAAAAQABAAEAAAADAAAAAQABAAEAAAAEAAAAAQABAAEAAAAFAAAAAQABAAEAAAAGAAAAAQABAAEAAAAIAAAAAQABAAEAAAAJAAAAAQABAAEAAAAKAAAAAQABAAEAAAAHAAAAAQABAAEAAAALAAAAAQADAAEAACALAP//AQACAAEAAAAFAPv/AQABAAEAAAAGAPv/AQABAAEAAAAHAPv/AQABAAEAAAAIAPv/AQABAAEAAAAJAPv/AQABAAEAAAD+//7/AQAEAAEAACD+//3/AQACAAEAAAD+//z/AQACAAEAAAD+//v/AQAEAAEAAAD///v/AQABAAEAAAAAAPv/AQABAAEAAAABAPv/AQABAAEAAAACAPv/AQABAAEAAAADAPv/AQABAAEAAAAEAPv/AQABAAEAAAD///z/AQABAAcAAAD///7/AQABAAEAAAAAAP7/AQABAAEAAAABAP7/AQABAAEAAAACAP7/AQABAAEAAAAEAP7/AQAAAAEAAAAGAPz/AQAAAAkAAAAHAPz/AQAAAAQAAAACAPz/AQAAAAkAAAAFAP3/AQACAAEAAAAFAP7/AQADAAEAACADAP7/AQABAAEAAAAGAP3/AQABAAEAAAAHAP3/AQABAAEAAAAIAPz/AQACAAEAAAAIAP3/AQADAAEAACAEAPz/AgAAAAAAAgA=")
+tile_map_data = PackedByteArray("AAADAAAAAQAEAAEAACAEAAAAAQABAAEAAAAFAAAAAQABAAEAAAAGAAAAAQABAAEAAAAIAAAAAQABAAEAAAAJAAAAAQABAAEAAAAKAAAAAQABAAEAAAAHAAAAAQABAAEAAAALAAAAAQADAAEAACAFAPv/AQABAAEAAAAGAPv/AQABAAEAAAAHAPv/AQABAAEAAAAIAPv/AQADAAEAAAD+//7/AQAEAAEAACD+//3/AQACAAEAAAD+//z/AQACAAEAAAD+//v/AQAEAAEAAAD///v/AQABAAEAAAAAAPv/AQABAAEAAAABAPv/AQABAAEAAAACAPv/AQABAAEAAAADAPv/AQABAAEAAAAEAPv/AQABAAEAAAD///7/AQABAAEAAAAAAP7/AQABAAEAAAABAP7/AQABAAEAAAACAP7/AQABAAEAAAAGAPz/AQAAAAkAAAACAPz/AQAAAAkAAAAFAP3/AQAEAAEAAAAFAP7/AQADAAEAACADAP7/AQADAAEAAAAGAP3/AQABAAEAAAAHAP3/AQABAAEAAAAIAPz/AQACAAEAAAAIAP3/AQAAAAEAAAAEAPz/AgAAAAAAAgADAP//AQACAAEAAAALAP7/AQACAAEAAAALAP3/AQADAAEAAAAJAP3/AQABAAEAAAAKAP3/AQABAAEAAAAMAP7/AQABAAEAAAANAP7/AQABAAEAAAAMAAAAAQABAAEAAAANAAAAAQABAAEAAAAMAP//AQAAAAkAAAAOAP7/AQABAAEAAAAPAP7/AQABAAEAAAAPAAAAAQABAAEAAAAOAAAAAQABAAEAAAAQAP//AQACAAEAAAAQAP7/AQADAAEAAAAQAAAAAQADAAEAACA=")
 tile_set = ExtResource("1_g2h2n")
 
 [node name="Player" parent="." instance=ExtResource("2_ra442")]
 z_as_relative = false
 position = Vector2(-4, -28.3333)
+
+[node name="Plate" parent="." instance=ExtResource("3_l37oo")]
+position = Vector2(77, -4.33333)
+
+[node name="Door" parent="." instance=ExtResource("4_qpwj6")]
+position = Vector2(108, -4)
+
+[node name="Spawner" parent="." instance=ExtResource("5_ibugp")]
+position = Vector2(-4, -28)
+
+[node name="Plate2" parent="." instance=ExtResource("6_ibugp")]
+position = Vector2(60, -28.3333)
+
+[node name="Door2" parent="." instance=ExtResource("4_qpwj6")]
+position = Vector2(36, -12)
+
+[node name="Spring2" parent="." instance=ExtResource("7_8qukl")]
+position = Vector2(92, -4)

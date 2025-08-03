@@ -206,5 +206,3 @@ func begin_loop():
 		add_sibling(clone)
 		end_input()
 		return
-
-# TODO players should loop a wait command once their loop is over

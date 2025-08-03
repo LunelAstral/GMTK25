@@ -14,6 +14,4 @@ func delay(time: float) -> void:
 	await get_tree().create_timer(time).timeout
 #endregion
 
-
-
 # TODO going to another level
