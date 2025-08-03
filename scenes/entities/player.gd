@@ -114,6 +114,7 @@ func movement_input() -> void:
 				self.boost_duration = 0
 				return  # Blocked
 				
+			# FIXME: I have no idea how to implement this - Clockknight
 			#if next[0].collider is Object_Interactable: 
 				#for i in range(next.size()):
 					#next[i].get("collider").overlap(self)
