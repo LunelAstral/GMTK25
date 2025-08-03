@@ -88,6 +88,7 @@ func movement_input() -> void:
 		
 	facing = dir
 	
+	
 	if dir != Vector2.ZERO:
 		var next = get_next_tile(dir)
 		
@@ -136,9 +137,7 @@ func animate() -> void:
 				sprite.flip_h = false
 				sprite.animation = "up"
 				
-				
-				
-	#FIXME: Need to make it so that the animations dont play unless the player is moving 
+	
 	if Input.is_action_pressed("Wait"):
 		sprite.pause()
 	else:

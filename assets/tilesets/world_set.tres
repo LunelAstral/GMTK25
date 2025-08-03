@@ -1,8 +1,8 @@
 [gd_resource type="TileSet" load_steps=7 format=3 uid="uid://c8wfwxqtd5p7t"]
 
 [ext_resource type="PackedScene" uid="uid://c7rirhvic6exm" path="res://scenes/environment/booster.tscn" id="1_ipxqh"]
-[ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/Sprites/tile_set.png" id="1_jwthh"]
-[ext_resource type="PackedScene" uid="uid://d124tgklysudc" path="res://scenes/environment/turret.tscn" id="2_shn3j"]
+[ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/sprites/tile_set.png" id="1_jwthh"]
+[ext_resource type="PackedScene" uid="uid://d124tgklysudc" path="res://scenes/environment/Turret.tscn" id="2_shn3j"]
 [ext_resource type="PackedScene" uid="uid://ch0oco0n4tdqd" path="res://scenes/environment/spawner.tscn" id="2_tj5mj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tj5mj"]
