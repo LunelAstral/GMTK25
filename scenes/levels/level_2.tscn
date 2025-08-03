@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://cysolw34c3kd0"]
+[gd_scene load_steps=9 format=4 uid="uid://cysolw34c3kd0"]
 
 [ext_resource type="TileSet" uid="uid://c8wfwxqtd5p7t" path="res://assets/tilesets/world_set.tres" id="1_g2h2n"]
 [ext_resource type="PackedScene" uid="uid://gktrw4cvodip" path="res://scenes/entities/player.tscn" id="2_ra442"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ch0oco0n4tdqd" path="res://scenes/environment/spawner.tscn" id="5_ibugp"]
 [ext_resource type="PackedScene" uid="uid://odiwk6mgulii" path="res://scenes/environment/plate.tscn" id="6_ibugp"]
 [ext_resource type="PackedScene" uid="uid://bitckdlk838jb" path="res://scenes/environment/spring.tscn" id="7_8qukl"]
+[ext_resource type="PackedScene" uid="uid://bcynfhcaqbd6m" path="res://scenes/environment/spike.tscn" id="8_8qukl"]
 
 [node name="Level_2" type="TileMapLayer"]
 z_as_relative = false
@@ -18,20 +19,25 @@ tile_set = ExtResource("1_g2h2n")
 z_as_relative = false
 position = Vector2(-4, -28.3333)
 
-[node name="Plate" parent="." instance=ExtResource("3_l37oo")]
+[node name="Plate" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("3_l37oo")]
 position = Vector2(77, -4.33333)
+target_door = NodePath("../Door")
 
 [node name="Door" parent="." instance=ExtResource("4_qpwj6")]
-position = Vector2(108, -4)
+position = Vector2(116.667, -4)
 
 [node name="Spawner" parent="." instance=ExtResource("5_ibugp")]
 position = Vector2(-4, -28)
 
-[node name="Plate2" parent="." instance=ExtResource("6_ibugp")]
+[node name="Plate2" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("6_ibugp")]
 position = Vector2(60, -28.3333)
+target_door = NodePath("../Door2")
 
 [node name="Door2" parent="." instance=ExtResource("4_qpwj6")]
 position = Vector2(36, -12)
 
 [node name="Spring2" parent="." instance=ExtResource("7_8qukl")]
 position = Vector2(92, -4)
+
+[node name="Spike" parent="." instance=ExtResource("8_8qukl")]
+position = Vector2(108.333, -4.33333)
