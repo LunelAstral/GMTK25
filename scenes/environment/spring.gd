@@ -11,4 +11,4 @@ func overlap(object : Node2D) -> void:
 	# this is just Booster, but we ignore walls
 	# Same idea, but call on a player func 
 	# Call on a func that takes booster vars, then does the same thing but also turns off collision for that many steps
-	
+	# TODO ALSO make it so sprites do their active animations for a bit

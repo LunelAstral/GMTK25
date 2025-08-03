@@ -6,8 +6,5 @@ extends Object_Interactable
 func overlap(object : Node2D) -> void:
 	print("Boosted " + str(object) + "in direction: " + direction )
 	
-	# TODO: Need a boost pad that will send players in one direction, either until a wall hit or after a certain amount of tiles.
-	# When player touches the pad
-	# They start sliding in said direction
-	# Then they continue until distance is 0, or until they hit a wall
-	# Should give player 2 vars, direction and distance
+	if object is Player:
+		object.boost(self.direction, self.distance)

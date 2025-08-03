@@ -1,11 +1,74 @@
-[gd_scene load_steps=4 format=3 uid="uid://bitckdlk838jb"]
+[gd_scene load_steps=11 format=3 uid="uid://bitckdlk838jb"]
 
 [ext_resource type="Script" uid="uid://oopca7cidog" path="res://scenes/environment/spring.gd" id="1_boo62"]
+[ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/Sprites/tile_set.png" id="2_0gmq7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_05gn2"]
 size = Vector2(8, 8)
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_1dloo"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wyfg"]
+atlas = ExtResource("2_0gmq7")
+region = Rect2(0, 48, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2wgsq"]
+atlas = ExtResource("2_0gmq7")
+region = Rect2(8, 48, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45up0"]
+atlas = ExtResource("2_0gmq7")
+region = Rect2(0, 48, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s5c4e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wyfg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2wgsq")
+}],
+"loop": true,
+"name": &"Active",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45up0")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 3.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8m8b"]
+atlas = ExtResource("2_0gmq7")
+region = Rect2(16, 40, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fplie"]
+atlas = ExtResource("2_0gmq7")
+region = Rect2(8, 40, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g3ypd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8m8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fplie")
+}],
+"loop": true,
+"name": &"Active",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8m8b")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 3.0
+}]
 
 [node name="Spring" type="Area2D"]
 script = ExtResource("1_boo62")
@@ -14,7 +77,15 @@ metadata/_edit_horizontal_guides_ = [10.0, -8.0, -4.0]
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_05gn2")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(1, 0, 0, 1)
+[node name="Sprite_bot" type="AnimatedSprite2D" parent="."]
 scale = Vector2(8, 8)
-texture = SubResource("CanvasTexture_1dloo")
+sprite_frames = SubResource("SpriteFrames_s5c4e")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="Sprite_top" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -64)
+scale = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_g3ypd")
+animation = &"Idle"
+autoplay = "Idle"

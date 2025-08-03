@@ -1,6 +1,20 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://c8wfwxqtd5p7t"]
+[gd_resource type="TileSet" load_steps=10 format=3 uid="uid://c8wfwxqtd5p7t"]
 
+[ext_resource type="PackedScene" uid="uid://c7rirhvic6exm" path="res://scenes/environment/booster.tscn" id="1_ipxqh"]
 [ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/Sprites/tile_set.png" id="1_jwthh"]
+[ext_resource type="PackedScene" uid="uid://bay8cj5g6xnhx" path="res://scenes/environment/exporter.tscn" id="2_xk51a"]
+[ext_resource type="PackedScene" uid="uid://bcynfhcaqbd6m" path="res://scenes/environment/spike.tscn" id="3_m0li2"]
+[ext_resource type="PackedScene" uid="uid://mkjtsciiw8e6" path="res://scenes/environment/switch.tscn" id="4_fmeyu"]
+[ext_resource type="PackedScene" uid="uid://cpsq8ybyu8e6h" path="res://scenes/environment/teleporter.tscn" id="5_drtbk"]
+[ext_resource type="PackedScene" uid="uid://d124tgklysudc" path="res://scenes/environment/Turret.tscn" id="6_hh1l6"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_1rdw5"]
+scenes/1/scene = ExtResource("1_ipxqh")
+scenes/2/scene = ExtResource("2_xk51a")
+scenes/3/scene = ExtResource("3_m0li2")
+scenes/4/scene = ExtResource("4_fmeyu")
+scenes/5/scene = ExtResource("5_drtbk")
+scenes/6/scene = ExtResource("6_hh1l6")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tj5mj"]
 texture = ExtResource("1_jwthh")
@@ -29,3 +43,4 @@ custom_data_layer_0/type = 1
 custom_data_layer_1/name = "solid"
 custom_data_layer_1/type = 1
 sources/1 = SubResource("TileSetAtlasSource_tj5mj")
+sources/0 = SubResource("TileSetScenesCollectionSource_1rdw5")
