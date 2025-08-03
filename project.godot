@@ -47,12 +47,6 @@ folder_colors={
 "res://utility/": "purple"
 }
 
-[global_group]
-
-saveable="Nodes that should have the \"save()\" function and can thus be saved as data to a .save file"
-solid="Impassable tile"
-player="For the player and its clones"
-
 [input]
 
 debug={

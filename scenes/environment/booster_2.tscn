@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://qxro26bvyp0x"]
+
+[ext_resource type="Script" uid="uid://b1b1pod66mmia" path="res://scenes/environment/booster.gd" id="1_bp6uc"]
+[ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/Sprites/tile_set.png" id="2_ujmmm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rr0ag"]
+size = Vector2(8, 8)
+
+[node name="Booster2" type="Area2D"]
+script = ExtResource("1_bp6uc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ujmmm")
+hframes = 5
+vframes = 11
+frame = 35
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rr0ag")

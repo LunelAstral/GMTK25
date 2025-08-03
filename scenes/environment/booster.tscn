@@ -14,7 +14,6 @@ metadata/_edit_horizontal_guides_ = [10.0, -8.0, -4.0]
 shape = SubResource("RectangleShape2D_05gn2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(8, 8)
 texture = ExtResource("2_lbmwu")
 hframes = 5
 vframes = 11

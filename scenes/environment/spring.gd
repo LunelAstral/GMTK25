@@ -1,14 +1,12 @@
 extends Object_Interactable
 
 @export var dir:String = "Right"
-@export var dist:int = -1
+@export var dist:int = 3
 
 
-func overlap(object : Node2D) -> void:
+func overlap(object : Node2D):
 	print("Boosted " + str(object) + "in direction: " + dir )
 	
-	# TODO: Need a spring pad that will "launch" the player to usually unreachable areas.
-	# this is just Booster, but we ignore walls
-	# Same idea, but call on a player func 
-	# Call on a func that takes booster vars, then does the same thing but also turns off collision for that many steps
-	# TODO ALSO make it so sprites do their active animations for a bit
+	
+	if object is Player:
+		object.spring(self.direction, self.distance)

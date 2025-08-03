@@ -21,6 +21,7 @@ const player_scene := preload("res://scenes/entities/player.tscn")
 
 var boost_duration := 0
 var boost_direction := ""
+var is_sprung := false
 
 var is_replaying := false
 var move_target: Vector2
@@ -52,9 +53,6 @@ func _process(_delta: float) -> void:
 	if can_act:
 		movement_input()
 	
-	
-	
-		
 	animate()
 
 func _input(event: InputEvent) -> void:
@@ -103,9 +101,10 @@ func movement_input() -> void:
 			"Up":
 				dir= Vector2.UP
 		self.boost_duration -= 1
+		if self.boost_duration == 0:
+			self.is_sprung = false
 		
 	facing = dir
-	
 	
 	if dir != Vector2.ZERO:
 		var next = get_next_tile(dir)
@@ -199,3 +198,6 @@ func boost(direction, duration):
 	self.boost_duration = duration
 	self.boost_direction = direction
 	
+func spring(direction, duration):
+	self.is_sprung = true
+	self.boost(direction, duration)

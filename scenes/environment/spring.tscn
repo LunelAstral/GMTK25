@@ -78,14 +78,12 @@ metadata/_edit_horizontal_guides_ = [10.0, -8.0, -4.0]
 shape = SubResource("RectangleShape2D_05gn2")
 
 [node name="Sprite_bot" type="AnimatedSprite2D" parent="."]
-scale = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_s5c4e")
 animation = &"Idle"
 autoplay = "Idle"
 
 [node name="Sprite_top" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -64)
-scale = Vector2(8, 8)
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_g3ypd")
 animation = &"Idle"
 autoplay = "Idle"
