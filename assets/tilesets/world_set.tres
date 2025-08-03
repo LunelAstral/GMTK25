@@ -1,8 +1,9 @@
-[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://c8wfwxqtd5p7t"]
+[gd_resource type="TileSet" load_steps=8 format=3 uid="uid://c8wfwxqtd5p7t"]
 
 [ext_resource type="PackedScene" uid="uid://c7rirhvic6exm" path="res://scenes/environment/booster.tscn" id="1_ipxqh"]
 [ext_resource type="Texture2D" uid="uid://dt5bk7w4w2yo4" path="res://assets/Sprites/tile_set.png" id="1_jwthh"]
-[ext_resource type="PackedScene" uid="uid://dh2dcrfwi4igb" path="res://scenes/environment/turret.tscn" id="2_shn3j"]
+[ext_resource type="PackedScene" uid="uid://bcynfhcaqbd6m" path="res://scenes/environment/spike.tscn" id="2_js7o0"]
+[ext_resource type="PackedScene" uid="uid://bitckdlk838jb" path="res://scenes/environment/spring.tscn" id="2_shn3j"]
 [ext_resource type="PackedScene" uid="uid://ch0oco0n4tdqd" path="res://scenes/environment/spawner.tscn" id="2_tj5mj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tj5mj"]
@@ -40,7 +41,8 @@ texture_region_size = Vector2i(8, 8)
 3:3/0 = 0
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_tj5mj"]
-scenes/1/scene = ExtResource("2_shn3j")
+scenes/1/scene = ExtResource("2_js7o0")
+scenes/2/scene = ExtResource("2_shn3j")
 scenes/3/scene = ExtResource("2_tj5mj")
 scenes/4/scene = ExtResource("1_ipxqh")
 

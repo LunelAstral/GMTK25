@@ -95,19 +95,12 @@ func movement_input() -> void:
 		
 		
 		if next:
-			if self.is_grounded:
-				if next.get_custom_data("is_spring"):
-					self.spring(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
-				
-				elif next.get_custom_data("boost_duration") != 0:
-					self.boost(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
-				
-				elif next.get_custom_data("is_spike"):
-					begin_loop()
+			if next.get_custom_data("is_spike") and self.is_grounded:
+				begin_loop()
 				
 			elif next.get_custom_data("solid"): 
 					self.boost_duration = 0
-					return  # Blocked
+					return  # Blockaed
 		
 		# Record this move, then perform it
 		moves_recorded.append(dir)
@@ -184,7 +177,16 @@ func end_input() -> void:
 #endregion
 
 func boost(direction, duration):
-	self.boost_direction = direction
+	match direction:
+		"Left":
+			self.boost_direction = Vector2.LEFT
+		"Right":
+			self.boost_direction =Vector2.RIGHT
+		"Up":
+			self.boost_direction =Vector2.UP
+		"Down":
+			self.boost_direction = Vector2.DOWN
+	
 	self.boost_duration = duration
 	
 func spring(direction, duration):

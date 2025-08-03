@@ -5,6 +5,4 @@ extends Object_Interactable
 
 func overlap(object: Node2D):
 	print("Boosted " + str(object) + "in direction: " + direction)
-	
-	if object is Player:
-		object.boost(self.direction, self.distance)
+	object.boost(self.direction, self.distance)
