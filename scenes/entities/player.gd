@@ -19,6 +19,9 @@ const player_scene := preload("res://scenes/entities/player.tscn")
 @export var speed := 80
 @export var facing := Vector2.DOWN
 
+var boost_duration := 0
+var boost_direction := ""
+
 var is_replaying := false
 var move_target: Vector2
 var can_act := true
@@ -89,6 +92,18 @@ func movement_input() -> void:
 	var init_move_size : int = moves_recorded.size()
 	
 	var dir := Input.get_vector("Left", "Right", "Up", "Down")
+	if boost_duration != 0:
+		match self.boost_direction:
+			"Left":
+				dir=Vector2.LEFT
+			"Right":
+				dir=Vector2.RIGHT
+			"Down":
+				dir=Vector2.DOWN
+			"Up":
+				dir= Vector2.UP
+		self.boost_duration -= 1
+		
 	facing = dir
 	
 	
@@ -97,6 +112,7 @@ func movement_input() -> void:
 		
 		if next:
 			if next.get_custom_data("solid"): 
+				self.boost_duration = 0
 				return  # Blocked
 				
 			#if next[0].collider is Object_Interactable: 
@@ -180,8 +196,6 @@ func end_input() -> void:
 #endregion
 
 func boost(direction, duration):
-	# TODO implement this
-	# set self.boost to true
-	# set boost direction
-	# set boost duration
-	# add a segment in movement where each tick will 
+	self.boost_duration = duration
+	self.boost_direction = direction
+	
