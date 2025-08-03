@@ -65,18 +65,7 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	if event.is_action_pressed("Replay"):
-		position = start_pos
-		move_target = position
-		
-		var clone = player_scene.instantiate()
-		clone.position = start_pos
-		clone.is_replaying = true
-		clone.moves_recorded = moves_recorded.duplicate(true)
-		clone.moves_recorded.insert(0, Actions.WAIT)  # Prepend dummy move so it starts at same point
-		moves_recorded = []
-		add_sibling(clone)
-		end_input()
-		return
+		begin_loop()
 		
 #endregion
 
@@ -102,8 +91,8 @@ func movement_input() -> void:
 	if dir != Vector2.ZERO:
 		var next = get_next_tile(dir)
 		
-		if next:
-			if next.get_custom_data("solid") and not self.is_sprung: 
+		if next and not self.is_sprung:
+			if next.get_custom_data("solid"): 
 				self.boost_duration = 0
 				return  # Blocked
 			
@@ -112,6 +101,9 @@ func movement_input() -> void:
 			
 			elif next.get_custom_data("boost_duration") != 0:
 				self.boost(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
+			
+			elif next.get_custom_data("is_spike"):
+				begin_loop()
 		
 		# Record this move, then perform it
 		moves_recorded.append(dir)
@@ -196,3 +188,17 @@ func boost(direction, duration):
 func spring(direction, duration):
 	self.is_sprung = true
 	self.boost(direction, duration)
+
+func begin_loop():
+		position = start_pos
+		move_target = position
+		
+		var clone = player_scene.instantiate()
+		clone.position = start_pos
+		clone.is_replaying = true
+		clone.moves_recorded = moves_recorded.duplicate(true)
+		clone.moves_recorded.insert(0, Actions.WAIT)  # Prepend dummy move so it starts at same point
+		moves_recorded = []
+		add_sibling(clone)
+		end_input()
+		return
