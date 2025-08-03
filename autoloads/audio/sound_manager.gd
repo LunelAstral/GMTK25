@@ -6,6 +6,8 @@ extends Node
 #endregion
 
 #region Variables
+@export var sound_loader : Dictionary[AudioStream, Genum.BusID] = {}
+
 var audio_players : Dictionary[Genum.BusID, Array]
 var audio_group_count : int = 4
 var sfx_pool : Dictionary[StringName, AudioStream] = {}
@@ -18,6 +20,8 @@ var playing : Array[StringName]
 #region Built-Ins
 func _ready() -> void:
 	setup_audio_players()
+	
+	load_sounds()
 #endregion
 
 #region Setup Methods
@@ -36,6 +40,10 @@ func setup_audio_players() -> void:
 				audio_players.set(genum, [player])
 			
 			player.finished.connect(_on_player_finished)
+
+func load_sounds() -> void:
+	for sound in sound_loader.keys():
+		add_sound(sound, sound_loader.get(sound))
 
 ## Adds a sound to the correct pool based on [param bus].
 func add_sound(sound: AudioStream, bus: Genum.BusID = Genum.BusID.SFX) -> void:

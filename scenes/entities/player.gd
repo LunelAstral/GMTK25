@@ -110,8 +110,6 @@ func movement_input() -> void:
 		var next = get_next_tile(dir)
 		
 		if next:
-			if next.get_custom_data("is_spike") and self.is_grounded:
-				begin_loop()
 			if next.get_custom_data("is_spring"):
 				self.spring(next.get_custom_data("boost_direction"),next.get_custom_data("boost_duration"))
 			
@@ -121,8 +119,11 @@ func movement_input() -> void:
 			elif next.get_custom_data("is_spike"):
 				begin_loop()
 				
-			elif next.get_custom_data("solid"): 
-			if next.get_custom_data("solid") and not sprung: 
+			if next.get_custom_data("is_spike"):
+				moves_recorded = []
+				check_records_size()
+				begin_loop()
+			elif next.get_custom_data("solid") and not sprung: 
 					self.boost_duration = 0
 					return  # Blockaed
 		
